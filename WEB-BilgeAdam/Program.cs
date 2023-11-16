@@ -1,3 +1,9 @@
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
+using Infrastructure_BilgeAdam.Context;
+using Infrastructure_BilgeAdam.DependencyResolvers.Autofac;
+using Microsoft.EntityFrameworkCore;
+
 namespace WEB_BilgeAdam
 {
     public class Program
@@ -8,6 +14,20 @@ namespace WEB_BilgeAdam
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            builder.Host
+                    .UseServiceProviderFactory(new AutofacServiceProviderFactory())
+                    .ConfigureContainer<ContainerBuilder>(builder =>
+            {
+                builder.RegisterModule(new AutofacBusinessModule());
+            });
+
+
+            var connectionString = builder.Configuration.GetConnectionString("PostgresSqlConnection");
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            {
+                options.UseNpgsql(connectionString);
+            });
 
             var app = builder.Build();
 
