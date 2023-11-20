@@ -1,0 +1,38 @@
+﻿@{
+    ViewData["Title"] = "Create Classroom";
+}
+@model CreateClassroomDTO
+
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Sınıf Ekle</h3>
+            </div>
+            <form asp-action="CreateClassroom">
+                <div class="card-body">
+                    <div>
+                        <label asp-for="ClassroomNo" class="form-label"></label>
+                        <input asp-for="ClassroomNo" class="form-control"/>
+                        <span asp-validation-for="ClassroomNo" class="text-danger"></span>
+                    </div>
+                    <div>
+                        <label asp-for="TeacherId" class="form-label"></label>
+                        <select asp-for="TeacherId" class="form-control">
+                            <option disabled="disabled" selected="selected">Lütfen bir öğretmen seçiniz...</option>
+                            <option>Öğretmen - 1</option>
+                            <option>Öğretmen - 2</option>
+                            <option>Öğretmen - 3</option>
+                        </select>
+                        <span asp-validation-for="TeacherId" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="card-footer" style="height:50px;">
+                    <button type="submit" class="btn btn-outline-primary float-end">Kaydet</button>
+                    <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary float-start">Geri Dön</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

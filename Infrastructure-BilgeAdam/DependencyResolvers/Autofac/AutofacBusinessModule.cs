@@ -1,4 +1,9 @@
-﻿using Autofac;
+﻿using ApplicationCore_BilgeAdam.DTO_s.ClassroomDTO;
+using Autofac;
+using AutoMapper;
+using FluentValidation;
+using Infrastructure_BilgeAdam.AutoMapper;
+using Infrastructure_BilgeAdam.FluentValidator.ClassroomValidators;
 using Infrastructure_BilgeAdam.Services.Concrete;
 using Infrastructure_BilgeAdam.Services.Interfaces;
 using System;
@@ -29,9 +34,18 @@ namespace Infrastructure_BilgeAdam.DependencyResolvers.Autofac
         //InstancePerLifetimeScope => Scoped
         protected override void Load(ContainerBuilder builder)
         {
+
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new Mapping());
+            });
+            IMapper mapper = mappingConfig.CreateMapper();
+            builder.RegisterInstance<IMapper>(mapper);
+
             builder.RegisterType<StudentRepository>().As<IStudentRepository>().SingleInstance();
             builder.RegisterType<TeacherRepository>().As<ITeacherRepository>().SingleInstance();
             builder.RegisterType<ClassroomRepository>().As<IClassroomRepository>().SingleInstance();
+            builder.RegisterType<CreateClassroomValidator>().As<IValidator<CreateClassroomDTO>>().SingleInstance();
         }
     }
 }

@@ -1,7 +1,13 @@
+using ApplicationCore_BilgeAdam.DTO_s.ClassroomDTO;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using AutoMapper;
+using FluentValidation;
+using FluentValidation.AspNetCore;
+using Infrastructure_BilgeAdam.AutoMapper;
 using Infrastructure_BilgeAdam.Context;
 using Infrastructure_BilgeAdam.DependencyResolvers.Autofac;
+using Infrastructure_BilgeAdam.FluentValidator.ClassroomValidators;
 using Microsoft.EntityFrameworkCore;
 
 namespace WEB_BilgeAdam
@@ -13,7 +19,10 @@ namespace WEB_BilgeAdam
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            builder.Services.AddControllersWithViews();
+            builder.Services.AddControllersWithViews().AddFluentValidation(fv =>
+            {
+                fv.RegisterValidatorsFromAssemblyContaining<CreateClassroomValidator>();
+            });
 
             builder.Host
                     .UseServiceProviderFactory(new AutofacServiceProviderFactory())
@@ -21,7 +30,6 @@ namespace WEB_BilgeAdam
             {
                 builder.RegisterModule(new AutofacBusinessModule());
             });
-
 
             var connectionString = builder.Configuration.GetConnectionString("PostgresSqlConnection");
             builder.Services.AddDbContext<ApplicationDbContext>(options =>

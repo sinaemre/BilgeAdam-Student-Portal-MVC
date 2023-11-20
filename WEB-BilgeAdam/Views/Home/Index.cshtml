@@ -1,8 +1,38 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+@model List<ClassroomVM>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div>
+    <a asp-controller="Classrooms" asp-action="CreateClassroom" class="btn btn-outline-success">Yeni Sınıf Ekle (+)</a>
+</div>
+
+<div class="row">
+    @foreach (var classroom in Model)
+    {
+        <div class="col-md-4 p-2">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h3 class="card-title">@classroom.ClassroomNO</h3>
+                    <a class="btn btn-outline-info">Detay</a>
+                </div>
+                <div class="card-body">
+                    <div>
+                        <label>
+                            Sınıf Mevcudu:
+                            <span><b>@classroom.ClassSize</b></span>
+                        </label>
+                    </div>
+                    <div>
+                        <label>
+                            Öğretmen:
+                            <a>
+                                <span><b>@classroom.TeacherName</b></span>
+                            </a>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
 </div>
