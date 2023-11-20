@@ -17,6 +17,7 @@ namespace Infrastructure_BilgeAdam.AutoMapper
             CreateMap<Classroom, CreateClassroomDTO>().ReverseMap();
 
             CreateMap<Teacher, CreateTeacherDTO>().ReverseMap();
+            CreateMap<Teacher, UpdateTeacherDTO>().ReverseMap();
         }
     }
 }

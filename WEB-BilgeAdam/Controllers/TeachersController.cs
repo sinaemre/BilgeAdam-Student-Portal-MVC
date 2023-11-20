@@ -52,5 +52,50 @@ namespace WEB_BilgeAdam.Controllers
             TempData["Warning"] = "Lütfen aşağıdaki kurallara uyunuz!";
             return View(model);
         }
+
+        public async Task<IActionResult> UpdateTeacher(int id)
+        {
+            if (id > 0)
+            {
+                var teacher = await _teacherRepo.GetById(id);
+                if (teacher is not null)
+                {
+                    var model = _mapper.Map<UpdateTeacherDTO>(teacher);
+                    return View(model);
+                }
+            }
+            TempData["Warning"] = "Öğretmen bulunamadı!";
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateTeacher(UpdateTeacherDTO model)
+        {
+            if (ModelState.IsValid)
+            {
+                var teacher = _mapper.Map<Teacher>(model);
+                await _teacherRepo.UpdateAsync(teacher);
+                TempData["Success"] = $"{model.FirstName} {model.LastName} kişisi güncellendi!";
+                return RedirectToAction("Index");
+            }
+            TempData["Warning"] = "Lütfen aşağıdaki kurallara uyunuz!";
+            return View(model);
+        }
+
+        public async Task<IActionResult> DeleteTeacher(int id)
+        {
+            if (id > 0)
+            {
+                var teacher = await _teacherRepo.GetById(id);
+                if (teacher is not null) 
+                {
+                    await _teacherRepo.DeleteAsync(teacher);
+                    TempData["Success"] = "Öğretmen silinmiştir!";
+                    return RedirectToAction("Index");
+                }
+            }
+            TempData["Error"] = "Öğretmen bulunamamıştır!";
+            return RedirectToAction("Index");
+        }
     }
 }

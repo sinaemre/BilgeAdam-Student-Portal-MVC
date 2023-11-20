@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace Infrastructure_BilgeAdam.FluentValidator.TeacherValidator
 {
-    public class CreateTeacherValidator : AbstractValidator<CreateTeacherDTO>
+    public class UpdateTeacherValidator : AbstractValidator<UpdateTeacherDTO>
     {
-        public CreateTeacherValidator()
+        public UpdateTeacherValidator()
         {
             Regex regEx = new Regex("^[a-zA-Z]*$");
 

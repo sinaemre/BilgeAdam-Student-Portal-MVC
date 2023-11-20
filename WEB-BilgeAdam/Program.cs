@@ -38,6 +38,7 @@ namespace WEB_BilgeAdam
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
             {
                 options.UseNpgsql(connectionString);
+                options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
             });
 
             var app = builder.Build();

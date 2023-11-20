@@ -41,7 +41,29 @@
                                     <a asp-controller="Teachers" asp-action="UpdateTeacher" asp-route-id="@teacher.Id" class="btn btn-outline-success">Güncelle</a>
                                 </td>
                                 <td>
-                                    <a asp-controller="Teachers" asp-action="DeleteTeacher" asp-route-id="@teacher.Id" class="btn btn-outline-danger">Sil</a>
+                                    <!-- Button trigger modal -->
+                                    <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#exampleModal-@teacher.Id">
+                                        Sil
+                                    </button>
+
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="exampleModal-@teacher.Id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Silme Uyarısı</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    @teacher.FirstName @teacher.LastName kişisini silmek istediğinize emin misiniz?
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                                                    <a asp-controller="Teachers" asp-action="DeleteTeacher" asp-route-id="@teacher.Id" type="button" class="btn btn-outline-danger">Sil</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </td>
                             </tr>
                         }

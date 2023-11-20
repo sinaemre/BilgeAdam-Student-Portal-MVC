@@ -37,9 +37,9 @@ namespace Infrastructure_BilgeAdam.DependencyResolvers.Autofac
         protected override void Load(ContainerBuilder builder)
         {
             //Services
-            builder.RegisterType<StudentRepository>().As<IStudentRepository>().SingleInstance();
-            builder.RegisterType<TeacherRepository>().As<ITeacherRepository>().SingleInstance();
-            builder.RegisterType<ClassroomRepository>().As<IClassroomRepository>().SingleInstance();
+            builder.RegisterType<StudentRepository>().As<IStudentRepository>().InstancePerLifetimeScope();
+            builder.RegisterType<TeacherRepository>().As<ITeacherRepository>().InstancePerLifetimeScope();
+            builder.RegisterType<ClassroomRepository>().As<IClassroomRepository>().InstancePerLifetimeScope();
 
             //Mapper
             var mappingConfig = new MapperConfiguration(mc =>
