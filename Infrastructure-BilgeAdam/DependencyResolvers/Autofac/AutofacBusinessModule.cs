@@ -1,9 +1,11 @@
 ﻿using ApplicationCore_BilgeAdam.DTO_s.ClassroomDTO;
+using ApplicationCore_BilgeAdam.DTO_s.TeacherDTO;
 using Autofac;
 using AutoMapper;
 using FluentValidation;
 using Infrastructure_BilgeAdam.AutoMapper;
 using Infrastructure_BilgeAdam.FluentValidator.ClassroomValidators;
+using Infrastructure_BilgeAdam.FluentValidator.TeacherValidator;
 using Infrastructure_BilgeAdam.Services.Concrete;
 using Infrastructure_BilgeAdam.Services.Interfaces;
 using System;
@@ -34,7 +36,12 @@ namespace Infrastructure_BilgeAdam.DependencyResolvers.Autofac
         //InstancePerLifetimeScope => Scoped
         protected override void Load(ContainerBuilder builder)
         {
+            //Services
+            builder.RegisterType<StudentRepository>().As<IStudentRepository>().SingleInstance();
+            builder.RegisterType<TeacherRepository>().As<ITeacherRepository>().SingleInstance();
+            builder.RegisterType<ClassroomRepository>().As<IClassroomRepository>().SingleInstance();
 
+            //Mapper
             var mappingConfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new Mapping());
@@ -42,10 +49,11 @@ namespace Infrastructure_BilgeAdam.DependencyResolvers.Autofac
             IMapper mapper = mappingConfig.CreateMapper();
             builder.RegisterInstance<IMapper>(mapper);
 
-            builder.RegisterType<StudentRepository>().As<IStudentRepository>().SingleInstance();
-            builder.RegisterType<TeacherRepository>().As<ITeacherRepository>().SingleInstance();
-            builder.RegisterType<ClassroomRepository>().As<IClassroomRepository>().SingleInstance();
-            builder.RegisterType<CreateClassroomValidator>().As<IValidator<CreateClassroomDTO>>().SingleInstance();
+            //Validators
+            builder.RegisterType<CreateClassroomValidator>().As<IValidator<CreateClassroomDTO>>().InstancePerLifetimeScope();
+
+
+            builder.RegisterType<CreateTeacherValidator>().As<IValidator<CreateTeacherDTO>>().InstancePerLifetimeScope();
         }
     }
 }

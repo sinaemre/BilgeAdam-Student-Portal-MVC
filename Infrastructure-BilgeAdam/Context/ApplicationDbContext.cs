@@ -10,6 +10,11 @@ namespace Infrastructure_BilgeAdam.Context
 {
     public class ApplicationDbContext : DbContext
     {
+        static ApplicationDbContext()
+        {
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+        }
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
             Database.Migrate();

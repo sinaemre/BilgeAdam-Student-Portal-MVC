@@ -8,6 +8,7 @@ using Infrastructure_BilgeAdam.AutoMapper;
 using Infrastructure_BilgeAdam.Context;
 using Infrastructure_BilgeAdam.DependencyResolvers.Autofac;
 using Infrastructure_BilgeAdam.FluentValidator.ClassroomValidators;
+using Infrastructure_BilgeAdam.FluentValidator.TeacherValidator;
 using Microsoft.EntityFrameworkCore;
 
 namespace WEB_BilgeAdam
@@ -19,16 +20,18 @@ namespace WEB_BilgeAdam
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            builder.Services.AddControllersWithViews().AddFluentValidation(fv =>
-            {
-                fv.RegisterValidatorsFromAssemblyContaining<CreateClassroomValidator>();
-            });
 
             builder.Host
                     .UseServiceProviderFactory(new AutofacServiceProviderFactory())
                     .ConfigureContainer<ContainerBuilder>(builder =>
             {
                 builder.RegisterModule(new AutofacBusinessModule());
+            });
+
+            builder.Services.AddControllersWithViews().AddFluentValidation(fv =>
+            {
+                fv.RegisterValidatorsFromAssemblyContaining<CreateClassroomValidator>()
+                  .RegisterValidatorsFromAssemblyContaining<CreateTeacherValidator>();
             });
 
             var connectionString = builder.Configuration.GetConnectionString("PostgresSqlConnection");
