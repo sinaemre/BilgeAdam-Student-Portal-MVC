@@ -1,0 +1,84 @@
+﻿@{
+    ViewData["Title"] = "Index";
+}
+@model List<StudentVM>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Öğrenci Listesi</h3>
+            </div>
+            <div class="card-body">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Öğrenci No</th>
+                            <th>Ad</th>
+                            <th>Soyad</th>
+                            <th>Doğum Tarihi</th>
+                            <th>Sınıf No</th>
+                            <th>Eklenme Tarihi</th>
+                            <th>Güncellenme Tarihi</th>
+                            <th>Güncelle</th>
+                            <th>Sil</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var student in Model)
+                        {
+                            <tr>
+                                <td>@student.Id</td>
+                                <td>@student.StudentNo</td>
+                                <td>@student.FirstName</td>
+                                <td>@student.LastName</td>
+                                <td>@student.BirthDate.ToShortDateString()</td>
+                                <td>@student.ClassroomNo</td>
+                                <td>@student.CreatedDate</td>
+                                @if (student.UpdatedDate is not null)
+                                {
+                                    <td>@student.UpdatedDate</td>
+                                }
+                                <td>
+                                    -
+                                </td>
+                                <td>
+                                    <a asp-controller="Students" asp-action="UpdateStudent" asp-route-id="@student.Id" class="btn btn-outline-success">Güncelle</a>
+                                </td>
+                                <td>
+                                    <!-- Button trigger modal -->
+                                    <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#exampleModal-@student.Id">
+                                        Sil
+                                    </button>
+
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="exampleModal-@student.Id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Silme Uyarısı</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    @student.FirstName @student.LastName kişisini silmek istediğinize emin misiniz?
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                                                    <a asp-controller="Students" asp-action="DeleteStudent" asp-route-id="@student.Id" type="button" class="btn btn-outline-danger">Sil</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-footer">
+                <a class="btn btn-outline-dark d-block" asp-controller="Students" asp-action="CreateStudent">Yeni Öğrenci Ekle</a>
+            </div>
+        </div>
+    </div>
+</div>
