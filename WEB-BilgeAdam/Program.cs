@@ -1,4 +1,5 @@
 using ApplicationCore_BilgeAdam.DTO_s.ClassroomDTO;
+using ApplicationCore_BilgeAdam.Entities.UserEntities.Concrete;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using AutoMapper;
@@ -6,10 +7,13 @@ using FluentValidation;
 using FluentValidation.AspNetCore;
 using Infrastructure_BilgeAdam.AutoMapper;
 using Infrastructure_BilgeAdam.Context;
+using Infrastructure_BilgeAdam.Context.IdentityContext;
 using Infrastructure_BilgeAdam.DependencyResolvers.Autofac;
+using Infrastructure_BilgeAdam.FluentValidator.AccountValidators;
 using Infrastructure_BilgeAdam.FluentValidator.ClassroomValidators;
 using Infrastructure_BilgeAdam.FluentValidator.StudentValidators;
 using Infrastructure_BilgeAdam.FluentValidator.TeacherValidator;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace WEB_BilgeAdam
@@ -36,15 +40,37 @@ namespace WEB_BilgeAdam
                   .RegisterValidatorsFromAssemblyContaining<CreateTeacherValidator>()
                   .RegisterValidatorsFromAssemblyContaining<UpdateTeacherValidator>()
                   .RegisterValidatorsFromAssemblyContaining<CreateStudentValidator>()
-                  .RegisterValidatorsFromAssemblyContaining<UpdateStudentValidator>();
+                  .RegisterValidatorsFromAssemblyContaining<UpdateStudentValidator>()
+                  .RegisterValidatorsFromAssemblyContaining<RegisterValidator>();
             });
 
             var connectionString = builder.Configuration.GetConnectionString("PostgresSqlConnection");
+            var connectionStringIdentity = builder.Configuration.GetConnectionString("PostgresSqlIdentityConnection");
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
             {
                 options.UseNpgsql(connectionString);
                 options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
             });
+            builder.Services.AddDbContext<AppIdentityDbContext>(options =>
+            {
+                options.UseNpgsql(connectionStringIdentity);
+                options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+            });
+
+            builder.Services.AddIdentity<AppUser, IdentityRole>(x =>
+            {
+                x.SignIn.RequireConfirmedPhoneNumber = false;
+                x.SignIn.RequireConfirmedAccount = false;
+                x.SignIn.RequireConfirmedEmail = false;
+                x.User.RequireUniqueEmail = true;
+                x.Password.RequiredLength = 1;
+                x.Password.RequiredUniqueChars = 0;
+                x.Password.RequireUppercase = false;
+                x.Password.RequireNonAlphanumeric = false;
+                x.Password.RequireLowercase = false;
+            })
+                .AddEntityFrameworkStores<AppIdentityDbContext>()
+                .AddDefaultTokenProviders();
 
             var app = builder.Build();
 

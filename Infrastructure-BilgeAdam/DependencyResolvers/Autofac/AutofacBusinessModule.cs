@@ -1,10 +1,14 @@
-﻿using ApplicationCore_BilgeAdam.DTO_s.ClassroomDTO;
+﻿using ApplicationCore_BilgeAdam.DTO_s.AccountDTO;
+using ApplicationCore_BilgeAdam.DTO_s.ClassroomDTO;
+using ApplicationCore_BilgeAdam.DTO_s.StudentDTO;
 using ApplicationCore_BilgeAdam.DTO_s.TeacherDTO;
 using Autofac;
 using AutoMapper;
 using FluentValidation;
 using Infrastructure_BilgeAdam.AutoMapper;
+using Infrastructure_BilgeAdam.FluentValidator.AccountValidators;
 using Infrastructure_BilgeAdam.FluentValidator.ClassroomValidators;
+using Infrastructure_BilgeAdam.FluentValidator.StudentValidators;
 using Infrastructure_BilgeAdam.FluentValidator.TeacherValidator;
 using Infrastructure_BilgeAdam.Services.Concrete;
 using Infrastructure_BilgeAdam.Services.Interfaces;
@@ -51,9 +55,13 @@ namespace Infrastructure_BilgeAdam.DependencyResolvers.Autofac
 
             //Validators
             builder.RegisterType<CreateClassroomValidator>().As<IValidator<CreateClassroomDTO>>().InstancePerLifetimeScope();
-
-
+            builder.RegisterType<UpdateClassroomValidator>().As<IValidator<UpdateClassroomDTO>>().InstancePerLifetimeScope();
             builder.RegisterType<CreateTeacherValidator>().As<IValidator<CreateTeacherDTO>>().InstancePerLifetimeScope();
+            builder.RegisterType<UpdateTeacherValidator>().As<IValidator<UpdateTeacherDTO>>().InstancePerLifetimeScope();
+            builder.RegisterType<CreateStudentValidator>().As<IValidator<CreateStudentDTO>>().InstancePerLifetimeScope();
+            builder.RegisterType<UpdateStudentValidator>().As<IValidator<UpdateStudentDTO>>().InstancePerLifetimeScope();
+            builder.RegisterType<RegisterValidator>().As<IValidator<RegisterDTO>>().InstancePerLifetimeScope();
+
         }
     }
 }
