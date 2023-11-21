@@ -1,4 +1,5 @@
 ﻿using ApplicationCore_BilgeAdam.DTO_s.ClassroomDTO;
+using ApplicationCore_BilgeAdam.DTO_s.StudentDTO;
 using ApplicationCore_BilgeAdam.DTO_s.TeacherDTO;
 using ApplicationCore_BilgeAdam.Entities.Concrete;
 using AutoMapper;
@@ -19,6 +20,8 @@ namespace Infrastructure_BilgeAdam.AutoMapper
 
             CreateMap<Teacher, CreateTeacherDTO>().ReverseMap();
             CreateMap<Teacher, UpdateTeacherDTO>().ReverseMap();
+
+            CreateMap<Student, CreateStudentDTO>().ReverseMap();
         }
     }
 }

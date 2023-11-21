@@ -8,6 +8,7 @@ using Infrastructure_BilgeAdam.AutoMapper;
 using Infrastructure_BilgeAdam.Context;
 using Infrastructure_BilgeAdam.DependencyResolvers.Autofac;
 using Infrastructure_BilgeAdam.FluentValidator.ClassroomValidators;
+using Infrastructure_BilgeAdam.FluentValidator.StudentValidators;
 using Infrastructure_BilgeAdam.FluentValidator.TeacherValidator;
 using Microsoft.EntityFrameworkCore;
 
@@ -32,7 +33,9 @@ namespace WEB_BilgeAdam
             {
                 fv.RegisterValidatorsFromAssemblyContaining<CreateClassroomValidator>()
                   .RegisterValidatorsFromAssemblyContaining<UpdateClassroomValidator>()
-                  .RegisterValidatorsFromAssemblyContaining<CreateTeacherValidator>();
+                  .RegisterValidatorsFromAssemblyContaining<CreateTeacherValidator>()
+                  .RegisterValidatorsFromAssemblyContaining<UpdateTeacherValidator>()
+                  .RegisterValidatorsFromAssemblyContaining<CreateStudentValidator>();
             });
 
             var connectionString = builder.Configuration.GetConnectionString("PostgresSqlConnection");

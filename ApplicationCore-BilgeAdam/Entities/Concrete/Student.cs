@@ -20,7 +20,6 @@ namespace ApplicationCore_BilgeAdam.Entities.Concrete
         [MinLength(3)]
         public string LastName { get; set; }
         public DateTime BirthDate { get; set; }
-        public int StudentNo { get; set; }
 
         public int ClassroomId { get; set; }
         public virtual Classroom Classroom { get; set; } //LazyLoading

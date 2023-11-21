@@ -1,4 +1,4 @@
-﻿using ApplicationCore_BilgeAdam.DTO_s.TeacherDTO;
+﻿using ApplicationCore_BilgeAdam.DTO_s.StudentDTO;
 using FluentValidation;
 using System;
 using System.Collections.Generic;
@@ -7,11 +7,11 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace Infrastructure_BilgeAdam.FluentValidator.TeacherValidator
+namespace Infrastructure_BilgeAdam.FluentValidator.StudentValidators
 {
-    public class CreateTeacherValidator : AbstractValidator<CreateTeacherDTO>
+    public class CreateStudentValidator : AbstractValidator<CreateStudentDTO>
     {
-        public CreateTeacherValidator()
+        public CreateStudentValidator()
         {
             Regex regEx = new Regex("^[a-zA-Z- ğüşöçİĞÜŞÖÇ]*$");
 
@@ -34,6 +34,15 @@ namespace Infrastructure_BilgeAdam.FluentValidator.TeacherValidator
                 .WithMessage("En fazla 100 karakter girebilirsiniz!")
                 .Matches(regEx)
                 .WithMessage("Sadece harf girilebilir!");
+
+            RuleFor(x => x.BirthDate)
+                .NotEmpty()
+                .WithMessage("Doğum Tarihi zorunludur!");
+
+            RuleFor(x => x.ClassroomId)
+                .NotEmpty()
+                .WithMessage("Sınıf seçimi zorunludur!");
+            
         }
     }
 }

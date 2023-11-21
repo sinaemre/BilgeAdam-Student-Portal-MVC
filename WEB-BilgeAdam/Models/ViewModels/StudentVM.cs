@@ -8,7 +8,6 @@
         public DateTime BirthDate { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime? UpdatedDate { get; set; }
-        public int StudentNo { get; set; }
         public byte ClassroomNo { get; set; }
     }
 }

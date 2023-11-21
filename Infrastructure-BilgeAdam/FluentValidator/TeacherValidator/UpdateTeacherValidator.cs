@@ -13,7 +13,7 @@ namespace Infrastructure_BilgeAdam.FluentValidator.TeacherValidator
     {
         public UpdateTeacherValidator()
         {
-            Regex regEx = new Regex("^[a-zA-Z]*$");
+            Regex regEx = new Regex("^[a-zA-Z- ğüşöçİĞÜŞÖÇ]*$");
 
             RuleFor(x => x.FirstName)
                 .NotEmpty()
