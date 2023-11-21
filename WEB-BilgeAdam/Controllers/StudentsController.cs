@@ -67,5 +67,52 @@ namespace WEB_BilgeAdam.Controllers
             TempData["Error"] = "Lütfen aşağıdaki kurallara uyunuz!";
             return View(model);
         }
+
+        public async Task<IActionResult> UpdateStudent(int id)
+        {
+            if (id > 0)
+            {
+                var student = await _studentRepo.GetById(id);
+                if (student != null)
+                {
+                    var model = _mapper.Map<UpdateStudentDTO>(student);
+                    model.Classrooms = await _classroomRepo.GetByDefaults(x => x.Status != ApplicationCore_BilgeAdam.Entities.Abstract.Status.Passive);
+                    return View(model);
+                }
+            }
+            TempData["Error"] = "Öğrenci bulunamadı!";
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateStudent(UpdateStudentDTO model)
+        {
+            model.Classrooms = await _classroomRepo.GetByDefaults(x => x.Status != ApplicationCore_BilgeAdam.Entities.Abstract.Status.Passive);
+            if (ModelState.IsValid)
+            {
+                var student = _mapper.Map<Student>(model);
+                await _studentRepo.UpdateAsync(student);
+                TempData["Success"] = $"{student.FirstName} {student.LastName} adlı öğrenci güncellenmiştir!";
+                return RedirectToAction("Index");
+            }
+            TempData["Warning"] = "Lütfen aşağıdaki kurallara uyunuz!";
+            return View(model);
+        }
+
+        public async Task<IActionResult> DeleteStudent(int id)
+        {
+            if (id > 0)
+            {
+                var student = await _studentRepo.GetById(id);
+                if (student != null)
+                {
+                    await _studentRepo.DeleteAsync(student);
+                    TempData["Success"] = "Öğrenci silinmiştir!";
+                    return RedirectToAction("Index");
+                }
+            }
+            TempData["Error"] = "Öğrenci bulunamadı!";
+            return RedirectToAction("Index");
+        }
     }
 }

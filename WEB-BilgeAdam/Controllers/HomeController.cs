@@ -26,7 +26,7 @@ namespace WEB_BilgeAdam.Controllers
                     {
                         Id = x.Id,
                         ClassroomNO = x.ClassroomNo,
-                        ClassSize = x.Students.Count,
+                        ClassSize = x.Students.Where(x => x.Status != ApplicationCore_BilgeAdam.Entities.Abstract.Status.Passive).ToList().Count,
                         TeacherName = x.Teacher.FirstName + " " + x.Teacher.LastName,
                         TeacherId = x.Teacher.Id
                     },
