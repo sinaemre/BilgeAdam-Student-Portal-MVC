@@ -1,0 +1,51 @@
+﻿@{
+    ViewData["Title"] = "Create Student";
+}
+@model CreateStudentDTO
+
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Öğrenci Ekle</h3>
+            </div>
+            <form asp-action="CreateStudent">
+                <div class="card-body">
+                    <div>
+                        <label asp-for="FirstName" class="form-label"></label>
+                        <input asp-for="FirstName" class="form-control" />
+                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                    </div>
+                    <div>
+                        <label asp-for="LastName" class="form-label"></label>
+                        <input asp-for="LastName" class="form-control" />
+                        <span asp-validation-for="LastName" class="text-danger"></span>
+                    </div>
+                    <div>
+                        <label asp-for="BirthDate" class="form-label"></label>
+                        <input asp-for="BirthDate" type="date" class="form-control" />
+                        <span asp-validation-for="BirthDate" class="text-danger"></span>
+                    </div>
+                    <div>
+                        <label asp-for="ClassroomId" class="form-label"></label>
+                        <select asp-for="ClassroomId" class="form-control">
+                            <!--selected => Seçili gelsin!-->
+                            <!--disabled => Seçilemesin-->
+                            <option selected="selected" disabled="disabled">Lütfen bir sınıf seçiniz!</option>
+                            @foreach (var classroom in Model.Classrooms)
+                            {
+                                <option value="@classroom.Id">@classroom.ClassroomNo</option>
+                            }
+                        </select>
+                        <span asp-validation-for="ClassroomId" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="card-footer" style="height:50px;">
+                    <button type="submit" class="btn btn-outline-primary float-end">Kaydet</button>
+                    <a asp-controller="Students" asp-action="Index" class="btn btn-outline-secondary float-start">Geri Dön</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

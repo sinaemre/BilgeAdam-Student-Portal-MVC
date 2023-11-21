@@ -41,7 +41,7 @@ namespace WEB_BilgeAdam.Controllers
 
             if (ModelState.IsValid)
             {
-                if (await _classroomRepo.Any(x => x.ClassroomNo == model.ClassroomNo))
+                if (await _classroomRepo.Any(x => x.ClassroomNo == model.ClassroomNo && x.Status != ApplicationCore_BilgeAdam.Entities.Abstract.Status.Passive))
                 {
                     TempData["Warning"] = "Lütfen başka bir sınıf kodu seçiniz!";
                     return View(model);
@@ -81,7 +81,7 @@ namespace WEB_BilgeAdam.Controllers
             if (ModelState.IsValid)
             {
                 var entity = await _classroomRepo.GetById(model.Id);
-                if (await _classroomRepo.Any(x => x.ClassroomNo == model.ClassroomNo && model.ClassroomNo != entity.ClassroomNo))
+                if (await _classroomRepo.Any(x => x.ClassroomNo == model.ClassroomNo && model.ClassroomNo != entity.ClassroomNo && x.Status != ApplicationCore_BilgeAdam.Entities.Abstract.Status.Passive))
                 {
                     TempData["Warning"] = "Lütfen başka bir sınıf kodu seçiniz!";
                     return View(model);

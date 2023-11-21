@@ -91,7 +91,7 @@ namespace WEB_BilgeAdam.Controllers
                 var teacher = await _teacherRepo.GetById(id);
                 if (teacher is not null) 
                 {
-                    if (!await _classroomRepo.Any(x => x.TeacherId == teacher.Id))
+                    if (!await _classroomRepo.Any(x => x.TeacherId == teacher.Id && x.Status != ApplicationCore_BilgeAdam.Entities.Abstract.Status.Passive))
                     {
                         await _teacherRepo.DeleteAsync(teacher);
                         TempData["Success"] = $"{teacher.FirstName} {teacher.LastName} silinmiştir!";
