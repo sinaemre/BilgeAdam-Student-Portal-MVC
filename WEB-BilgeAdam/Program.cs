@@ -31,6 +31,7 @@ namespace WEB_BilgeAdam
             builder.Services.AddControllersWithViews().AddFluentValidation(fv =>
             {
                 fv.RegisterValidatorsFromAssemblyContaining<CreateClassroomValidator>()
+                  .RegisterValidatorsFromAssemblyContaining<UpdateClassroomValidator>()
                   .RegisterValidatorsFromAssemblyContaining<CreateTeacherValidator>();
             });
 

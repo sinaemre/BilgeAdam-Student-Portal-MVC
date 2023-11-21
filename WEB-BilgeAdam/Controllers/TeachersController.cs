@@ -11,11 +11,13 @@ namespace WEB_BilgeAdam.Controllers
     {
         private readonly ITeacherRepository _teacherRepo;
         private readonly IMapper _mapper;
+        private readonly IClassroomRepository _classroomRepo;
 
-        public TeachersController(ITeacherRepository teacherRepo, IMapper mapper)
+        public TeachersController(ITeacherRepository teacherRepo, IMapper mapper, IClassroomRepository classroomRepo)
         {
             _teacherRepo = teacherRepo;
             _mapper = mapper;
+            _classroomRepo = classroomRepo;
         }
 
         public async Task<IActionResult> Index()
@@ -89,9 +91,17 @@ namespace WEB_BilgeAdam.Controllers
                 var teacher = await _teacherRepo.GetById(id);
                 if (teacher is not null) 
                 {
-                    await _teacherRepo.DeleteAsync(teacher);
-                    TempData["Success"] = "Öğretmen silinmiştir!";
-                    return RedirectToAction("Index");
+                    if (!await _classroomRepo.Any(x => x.TeacherId == teacher.Id))
+                    {
+                        await _teacherRepo.DeleteAsync(teacher);
+                        TempData["Success"] = $"{teacher.FirstName} {teacher.LastName} silinmiştir!";
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        TempData["Warning"] = $"{teacher.FirstName} {teacher.LastName} sınıflarda kayıtlıdır. Önce kayıtlı olduğu sınıflardan çıkartınız!";
+                        return RedirectToAction("Index", "Home");
+                    }
                 }
             }
             TempData["Error"] = "Öğretmen bulunamamıştır!";

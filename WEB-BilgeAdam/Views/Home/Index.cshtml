@@ -14,7 +14,7 @@
             <div class="card">
                 <div class="card-header text-center">
                     <h3 class="card-title">@classroom.ClassroomNO</h3>
-                    <a class="btn btn-outline-info">Detay</a>
+                    <a asp-controller="Classrooms" asp-action="UpdateClassroom" asp-route-id="@classroom.Id" class="btn btn-outline-info">Güncelle</a>
                 </div>
                 <div class="card-body">
                     <div>
@@ -30,6 +30,31 @@
                                 <span><b>@classroom.TeacherName</b></span>
                             </a>
                         </label>
+                    </div>
+                </div>
+                <div class="card-footer text-center">
+                    <!-- Button trigger modal -->
+                    <a type="button" class="btn btn-outline-danger d-block" data-bs-toggle="modal" data-bs-target="#exampleModal-@classroom.Id">
+                        Sil
+                    </a>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal-@classroom.Id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Silme Uyarısı</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    @classroom.ClassroomNO sınıfını silmek istediğinize emin misiniz?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                                    <a asp-controller="Classrooms" asp-action="DeleteClassroom" asp-route-id="@classroom.Id" type="button" class="btn btn-outline-danger">Sil</a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

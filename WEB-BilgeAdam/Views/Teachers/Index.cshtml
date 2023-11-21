@@ -34,9 +34,12 @@
                                 {
                                     <td>@teacher.UpdatedDate</td>
                                 }
-                                <td>
-                                    -
-                                </td>
+                                else
+                                {
+                                    <td>
+                                        -
+                                    </td>
+                                }
                                 <td>
                                     <a asp-controller="Teachers" asp-action="UpdateTeacher" asp-route-id="@teacher.Id" class="btn btn-outline-success">Güncelle</a>
                                 </td>
