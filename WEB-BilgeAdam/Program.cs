@@ -42,7 +42,8 @@ namespace WEB_BilgeAdam
                   .RegisterValidatorsFromAssemblyContaining<CreateStudentValidator>()
                   .RegisterValidatorsFromAssemblyContaining<UpdateStudentValidator>()
                   .RegisterValidatorsFromAssemblyContaining<RegisterValidator>()
-                  .RegisterValidatorsFromAssemblyContaining<LoginValidator>();
+                  .RegisterValidatorsFromAssemblyContaining<LoginValidator>()
+                  .RegisterValidatorsFromAssemblyContaining<EditValidator>();
             });
 
             var connectionString = builder.Configuration.GetConnectionString("PostgresSqlConnection");
@@ -88,11 +89,18 @@ namespace WEB_BilgeAdam
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
+
+            app.MapControllerRoute(
+                name: "areas",
+                pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
+
+
 
             app.Run();
         }

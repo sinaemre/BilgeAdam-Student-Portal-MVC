@@ -32,4 +32,9 @@
     <ProjectReference Include="..\Infrastructure-BilgeAdam\Infrastructure-BilgeAdam.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Areas\Admin\Data\" />
+    <Folder Include="Areas\Admin\Models\" />
+  </ItemGroup>
+
 </Project>

@@ -4,6 +4,8 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
+using System.Security.Principal;
 
 namespace WEB_BilgeAdam.Controllers
 {
@@ -80,6 +82,53 @@ namespace WEB_BilgeAdam.Controllers
             }
             TempData["Warning"] = "Kullanıcı adı veya şifre yanlış tekrar deneyin!";
             return View(model);
+        }
+
+        public async Task<IActionResult> Edit()
+        {
+            //User => Bu property giriş yapmış kullanıcının bilgilerine sahiptir. User.Identity.Name bize giriş yağpmış kullanıcının kullanıcı adını verir.
+            //var appUser = await _userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+            var userId = _userManager.GetUserId(HttpContext.User);
+            var appUser = await _userManager.FindByIdAsync(userId);
+            var model = new EditUserDTO(appUser);
+            return View(model);
+        }
+
+        [HttpPost, ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(EditUserDTO model)
+        {
+            if (ModelState.IsValid)
+            {
+                //var appUser = await _userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+                var userId = _userManager.GetUserId(HttpContext.User);
+                var appUser = await _userManager.FindByIdAsync(userId);
+                appUser.UserName = model.UserName;
+                appUser.Email = model.Email;
+                if (model.Password != null)
+                {
+                    appUser.PasswordHash = _passwordHasher.HashPassword(appUser, model.Password);
+                }
+                
+                var result = await _userManager.UpdateAsync(appUser);
+                if (result.Succeeded)
+                {
+                    TempData["Success"] = "Profiliniz güncellendi! Tekrar giriş yapınız!";
+                    //return RedirectToAction("LogOut");
+
+                }
+                else
+                {
+                    TempData["Error"] = "Profiliniz güncellenemedi!";
+                }
+            }
+            return View(model);
+        }
+
+        public async Task<IActionResult> LogOut()
+        {
+            await _signInManager.SignOutAsync();
+            TempData["Warning"] = "Başarılı bir şekilde çıkış yaptınız!";
+            return RedirectToAction("Login");
         }
     }
 }

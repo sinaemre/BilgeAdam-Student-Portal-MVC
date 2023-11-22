@@ -62,6 +62,7 @@ namespace Infrastructure_BilgeAdam.DependencyResolvers.Autofac
             builder.RegisterType<UpdateStudentValidator>().As<IValidator<UpdateStudentDTO>>().InstancePerLifetimeScope();
             builder.RegisterType<RegisterValidator>().As<IValidator<RegisterDTO>>().InstancePerLifetimeScope();
             builder.RegisterType<LoginValidator>().As<IValidator<LoginDTO>>().InstancePerLifetimeScope();
+            builder.RegisterType<EditValidator>().As<IValidator<EditUserDTO>>().InstancePerLifetimeScope();
 
         }
     }

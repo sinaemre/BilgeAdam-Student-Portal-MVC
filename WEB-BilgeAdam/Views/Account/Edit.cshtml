@@ -1,33 +1,36 @@
 ﻿@{
-    ViewData["Title"] = "Login";
+    ViewData["Title"] = "Edit";
 }
-@model LoginDTO
+@model EditUserDTO
 
 <div class="row">
     <div class="col-md-2"></div>
     <div class="col-md-8">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Giriş Yap</h3>
+                <h3 class="card-title">Bilgileri Düzenle</h3>
             </div>
-            <form asp-action="Login">
+            <form asp-action="Edit">
                 <div class="card-body">
                     <div>
                         <label asp-for="UserName" class="form-label"></label>
                         <input asp-for="UserName" class="form-control" />
-
                         <span asp-validation-for="UserName" class="text-danger"></span>
                     </div>
                     <div>
+                        <label asp-for="Email" class="form-label"></label>
+                        <input asp-for="Email" class="form-control" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div>
                         <label asp-for="Password" class="form-label"></label>
-                        <input asp-for="Password" class="form-control" id="myInput" />
-                        <input type="checkbox" onclick="myFunction()">Şifreyi Göster
+                        <input asp-for="Password" class="form-control" />
                         <span asp-validation-for="Password" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="card-footer" style="height:50px;">
-                    <button type="submit" class="btn btn-outline-primary float-end">Giriş Yap</button>
-                    <a asp-controller="Account" asp-action="Register" class="btn btn-outline-secondary float-start">Hesabın yok mu? Kayıt Ol!</a>
+                    <button type="submit" class="btn btn-outline-primary float-end">Kaydet</button>
+                    <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary float-start">Anasayfa</a>
                 </div>
             </form>
         </div>
