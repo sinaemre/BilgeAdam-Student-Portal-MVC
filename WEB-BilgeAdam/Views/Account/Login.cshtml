@@ -1,26 +1,21 @@
 ﻿@{
-    ViewData["Title"] = "Register";
+    ViewData["Title"] = "Login";
 }
-@model RegisterDTO
+@model LoginDTO
 
 <div class="row">
     <div class="col-md-2"></div>
     <div class="col-md-8">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Kayıt Ol</h3>
+                <h3 class="card-title">Giriş Yap</h3>
             </div>
-            <form asp-action="Register">
+            <form asp-action="Login">
                 <div class="card-body">
                     <div>
                         <label asp-for="UserName" class="form-label"></label>
                         <input asp-for="UserName" class="form-control" />
                         <span asp-validation-for="UserName" class="text-danger"></span>
-                    </div>
-                    <div>
-                        <label asp-for="Email" class="form-label"></label>
-                        <input asp-for="Email" class="form-control" />
-                        <span asp-validation-for="Email" class="text-danger"></span>
                     </div>
                     <div>
                         <label asp-for="Password" class="form-label"></label>
@@ -29,8 +24,8 @@
                     </div>
                 </div>
                 <div class="card-footer" style="height:50px;">
-                    <button type="submit" class="btn btn-outline-primary float-end">Kayıt Ol</button>
-                    <a asp-controller="Account" asp-action="Login" class="btn btn-outline-secondary float-start">Zaten bir hesabın var mı? Giriş Yap!</a>
+                    <button type="submit" class="btn btn-outline-primary float-end">Giriş Yap</button>
+                    <a asp-controller="Account" asp-action="Register" class="btn btn-outline-secondary float-start">Hesabın yok mu? Kayıt Ol!</a>
                 </div>
             </form>
         </div>

@@ -27,7 +27,7 @@ namespace WEB_BilgeAdam.Controllers
             return View();
         }
 
-        //ValidateAntiForgeryToken => isteye yapılan saldırıları engellmek ve kullanıcı bilgilerini korumak için kullanılır.
+        //ValidateAntiForgeryToken => siteye yapılan saldırıları engellemek ve kullanıcı bilgilerini korumak için kullanılır.
         [AllowAnonymous, HttpPost, ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterDTO model)
         {
@@ -52,6 +52,33 @@ namespace WEB_BilgeAdam.Controllers
                 }
             }
             TempData["Warning"] = "Lütfen kayıt oluşturma kurallarına uyunuz!";
+            return View(model);
+        }
+
+        [AllowAnonymous]
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost, AllowAnonymous, ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login(LoginDTO model)
+        {
+            if (ModelState.IsValid)
+            {
+                var appUser = await _userManager.FindByNameAsync(model.UserName);
+                if (appUser != null)
+                {
+                    Microsoft.AspNetCore.Identity.SignInResult signInResult = await _signInManager.PasswordSignInAsync(appUser.UserName, model.Password, false, false);
+
+                    if (signInResult.Succeeded)
+                    {
+                        TempData["Success"] = $"Hoşgeldin => {appUser.UserName}";
+                        return RedirectToAction("Index", "Home");
+                    }
+                }
+            }
+            TempData["Warning"] = "Kullanıcı adı veya şifre yanlış tekrar deneyin!";
             return View(model);
         }
     }

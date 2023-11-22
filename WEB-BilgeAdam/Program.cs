@@ -41,7 +41,8 @@ namespace WEB_BilgeAdam
                   .RegisterValidatorsFromAssemblyContaining<UpdateTeacherValidator>()
                   .RegisterValidatorsFromAssemblyContaining<CreateStudentValidator>()
                   .RegisterValidatorsFromAssemblyContaining<UpdateStudentValidator>()
-                  .RegisterValidatorsFromAssemblyContaining<RegisterValidator>();
+                  .RegisterValidatorsFromAssemblyContaining<RegisterValidator>()
+                  .RegisterValidatorsFromAssemblyContaining<LoginValidator>();
             });
 
             var connectionString = builder.Configuration.GetConnectionString("PostgresSqlConnection");
