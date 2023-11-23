@@ -16,6 +16,7 @@ using Infrastructure_BilgeAdam.FluentValidator.StudentValidators;
 using Infrastructure_BilgeAdam.FluentValidator.TeacherValidator;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Npgsql;
 
 namespace WEB_BilgeAdam
 {
@@ -50,6 +51,8 @@ namespace WEB_BilgeAdam
 
             var connectionString = builder.Configuration.GetConnectionString("PostgresSqlConnection");
             var connectionStringIdentity = builder.Configuration.GetConnectionString("PostgresSqlIdentityConnection");
+
+
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
             {
                 options.UseNpgsql(connectionString);
