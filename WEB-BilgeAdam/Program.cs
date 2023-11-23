@@ -11,6 +11,7 @@ using Infrastructure_BilgeAdam.Context.IdentityContext;
 using Infrastructure_BilgeAdam.DependencyResolvers.Autofac;
 using Infrastructure_BilgeAdam.FluentValidator.AccountValidators;
 using Infrastructure_BilgeAdam.FluentValidator.ClassroomValidators;
+using Infrastructure_BilgeAdam.FluentValidator.RoleValidators;
 using Infrastructure_BilgeAdam.FluentValidator.StudentValidators;
 using Infrastructure_BilgeAdam.FluentValidator.TeacherValidator;
 using Microsoft.AspNetCore.Identity;
@@ -43,7 +44,8 @@ namespace WEB_BilgeAdam
                   .RegisterValidatorsFromAssemblyContaining<UpdateStudentValidator>()
                   .RegisterValidatorsFromAssemblyContaining<RegisterValidator>()
                   .RegisterValidatorsFromAssemblyContaining<LoginValidator>()
-                  .RegisterValidatorsFromAssemblyContaining<EditValidator>();
+                  .RegisterValidatorsFromAssemblyContaining<EditValidator>()
+                  .RegisterValidatorsFromAssemblyContaining<CreateRoleValidator>();
             });
 
             var connectionString = builder.Configuration.GetConnectionString("PostgresSqlConnection");

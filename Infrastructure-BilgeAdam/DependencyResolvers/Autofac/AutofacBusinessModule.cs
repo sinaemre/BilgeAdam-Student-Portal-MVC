@@ -1,5 +1,6 @@
 ﻿using ApplicationCore_BilgeAdam.DTO_s.AccountDTO;
 using ApplicationCore_BilgeAdam.DTO_s.ClassroomDTO;
+using ApplicationCore_BilgeAdam.DTO_s.RoleDTO;
 using ApplicationCore_BilgeAdam.DTO_s.StudentDTO;
 using ApplicationCore_BilgeAdam.DTO_s.TeacherDTO;
 using Autofac;
@@ -8,6 +9,7 @@ using FluentValidation;
 using Infrastructure_BilgeAdam.AutoMapper;
 using Infrastructure_BilgeAdam.FluentValidator.AccountValidators;
 using Infrastructure_BilgeAdam.FluentValidator.ClassroomValidators;
+using Infrastructure_BilgeAdam.FluentValidator.RoleValidators;
 using Infrastructure_BilgeAdam.FluentValidator.StudentValidators;
 using Infrastructure_BilgeAdam.FluentValidator.TeacherValidator;
 using Infrastructure_BilgeAdam.Services.Concrete;
@@ -63,7 +65,7 @@ namespace Infrastructure_BilgeAdam.DependencyResolvers.Autofac
             builder.RegisterType<RegisterValidator>().As<IValidator<RegisterDTO>>().InstancePerLifetimeScope();
             builder.RegisterType<LoginValidator>().As<IValidator<LoginDTO>>().InstancePerLifetimeScope();
             builder.RegisterType<EditValidator>().As<IValidator<EditUserDTO>>().InstancePerLifetimeScope();
-
+            builder.RegisterType<CreateRoleValidator>().As<IValidator<CreateRoleDTO>>().InstancePerLifetimeScope();
         }
     }
 }
