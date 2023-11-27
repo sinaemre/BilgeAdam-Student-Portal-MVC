@@ -1,4 +1,5 @@
-﻿using ApplicationCore_BilgeAdam.DTO_s.StudentDTO;
+﻿using ApplicationCore_BilgeAdam.DTO_s.ClassroomDTO;
+using ApplicationCore_BilgeAdam.DTO_s.StudentDTO;
 using ApplicationCore_BilgeAdam.Entities.Concrete;
 using AutoMapper;
 using Infrastructure_BilgeAdam.Services.Interfaces;
@@ -13,12 +14,14 @@ namespace WEB_BilgeAdam.Controllers
         private readonly IStudentRepository _studentRepo;
         private readonly IMapper _mapper;
         private readonly IClassroomRepository _classroomRepo;
+        private readonly ITeacherRepository _teacherRepo;
 
-        public StudentsController(IStudentRepository studentRepo, IMapper mapper, IClassroomRepository classroomRepo)
+        public StudentsController(IStudentRepository studentRepo, IMapper mapper, IClassroomRepository classroomRepo, ITeacherRepository teacherRepo)
         {
             _studentRepo = studentRepo;
             _mapper = mapper;
             _classroomRepo = classroomRepo;
+            _teacherRepo = teacherRepo;
         }
 
         public async Task<IActionResult> Index()
@@ -121,9 +124,12 @@ namespace WEB_BilgeAdam.Controllers
             if (student != null)
             {
                 var classroom = await _classroomRepo.GetById(student.ClassroomId);
+                var teacher = await _teacherRepo.GetById(classroom.TeacherId);
                 if (classroom is not null)
                 {
-                    return View(classroom);
+                    var model = _mapper.Map<ClassroomStudentDTO>(classroom);
+                    model.TeacherName = teacher.FirstName + " " + teacher.LastName;
+                    return View(model);
                 }
             }
             TempData["Error"] = "Bir şeyler ters gitti!";
