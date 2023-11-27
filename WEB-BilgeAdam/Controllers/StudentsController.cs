@@ -114,5 +114,20 @@ namespace WEB_BilgeAdam.Controllers
             TempData["Error"] = "Öğrenci bulunamadı!";
             return RedirectToAction("Index");
         }
+
+        public async Task<IActionResult> ShowStudentClassroom(int id)
+        {
+            var student = await _studentRepo.GetById(id);
+            if (student != null)
+            {
+                var classroom = await _classroomRepo.GetById(student.ClassroomId);
+                if (classroom is not null)
+                {
+                    return View(classroom);
+                }
+            }
+            TempData["Error"] = "Bir şeyler ters gitti!";
+            return RedirectToAction("Index", "Home");
+        }
     }
 }
