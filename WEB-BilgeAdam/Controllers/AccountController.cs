@@ -1,6 +1,7 @@
 ﻿using ApplicationCore_BilgeAdam.DTO_s.AccountDTO;
 using ApplicationCore_BilgeAdam.Entities.UserEntities.Concrete;
 using AutoMapper;
+using Infrastructure_BilgeAdam.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -14,12 +15,14 @@ namespace WEB_BilgeAdam.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly IPasswordHasher<AppUser> _passwordHasher;
+        private readonly IStudentRepository _studentRepo;
 
-        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IPasswordHasher<AppUser> passwordHasher)
+        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IPasswordHasher<AppUser> passwordHasher, IStudentRepository studentRepo)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _passwordHasher = passwordHasher;
+            _studentRepo = studentRepo;
         }
 
         //AllowAnonymous => Giriş yapmayan kişiler bu sayayı görüntüleyebilir!
@@ -75,6 +78,15 @@ namespace WEB_BilgeAdam.Controllers
 
                     if (signInResult.Succeeded)
                     {
+                        if (await _userManager.IsInRoleAsync(appUser, "Student"))
+                        {
+                            var student = await _studentRepo.GetByDefault(x => x.Email == appUser.Email);
+                            if (student is not null)
+                            {
+                                TempData["Success"] = $"Hoşgeldin => {student.FirstName + " " + student.LastName}";
+                                return RedirectToAction("ShowStudentClassroom", "Students", new { userName = appUser.UserName });
+                            }
+                        }
                         TempData["Success"] = $"Hoşgeldin => {appUser.UserName}";
                         return RedirectToAction("Index", "Home");
                     }

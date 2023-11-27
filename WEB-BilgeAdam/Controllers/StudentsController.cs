@@ -1,8 +1,10 @@
 ﻿using ApplicationCore_BilgeAdam.DTO_s.ClassroomDTO;
 using ApplicationCore_BilgeAdam.DTO_s.StudentDTO;
 using ApplicationCore_BilgeAdam.Entities.Concrete;
+using ApplicationCore_BilgeAdam.Entities.UserEntities.Concrete;
 using AutoMapper;
 using Infrastructure_BilgeAdam.Services.Interfaces;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WEB_BilgeAdam.Models.ViewModels;
@@ -15,13 +17,15 @@ namespace WEB_BilgeAdam.Controllers
         private readonly IMapper _mapper;
         private readonly IClassroomRepository _classroomRepo;
         private readonly ITeacherRepository _teacherRepo;
+        private readonly UserManager<AppUser> _userManager;
 
-        public StudentsController(IStudentRepository studentRepo, IMapper mapper, IClassroomRepository classroomRepo, ITeacherRepository teacherRepo)
+        public StudentsController(IStudentRepository studentRepo, IMapper mapper, IClassroomRepository classroomRepo, ITeacherRepository teacherRepo, UserManager<AppUser> userManager)
         {
             _studentRepo = studentRepo;
             _mapper = mapper;
             _classroomRepo = classroomRepo;
             _teacherRepo = teacherRepo;
+            _userManager = userManager;
         }
 
         public async Task<IActionResult> Index()
@@ -118,9 +122,11 @@ namespace WEB_BilgeAdam.Controllers
             return RedirectToAction("Index");
         }
 
-        public async Task<IActionResult> ShowStudentClassroom(int id)
+        public async Task<IActionResult> ShowStudentClassroom(string userName)
         {
-            var student = await _studentRepo.GetById(id);
+            var appUser = await _userManager.FindByNameAsync(userName);
+
+            var student = await _studentRepo.GetByDefault(x => x.Email == appUser.Email);
             if (student != null)
             {
                 var classroom = await _classroomRepo.GetById(student.ClassroomId);
@@ -133,6 +139,26 @@ namespace WEB_BilgeAdam.Controllers
                 }
             }
             TempData["Error"] = "Bir şeyler ters gitti!";
+            return RedirectToAction("Index", "Home");
+        }
+
+        public async Task<IActionResult> StudentExams(string userName)
+        {
+            var appUser = await _userManager.FindByNameAsync(userName);
+
+            var student = await _studentRepo.GetByDefault(x => x.Email == appUser.Email);
+            if (student != null)
+            {
+                var model = new StudentExamVM
+                {
+                    Exam1 = student.Exam1,
+                    Exam2 = student.Exam2,
+                    ProjectPath = student.ProjectPath
+                };
+
+                return View(model);
+            }
+            TempData["Error"] = "Öğrenci bulunamadı!";
             return RedirectToAction("Index", "Home");
         }
     }

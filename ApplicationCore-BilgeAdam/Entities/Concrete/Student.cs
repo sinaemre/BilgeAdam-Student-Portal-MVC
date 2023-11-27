@@ -21,6 +21,9 @@ namespace ApplicationCore_BilgeAdam.Entities.Concrete
         [MaxLength(100)]
         [MinLength(3)]
         public string LastName { get; set; }
+
+        public string? Email { get; set; }
+
         public DateTime BirthDate { get; set; }
 
         public double? Exam1 { get; set; }

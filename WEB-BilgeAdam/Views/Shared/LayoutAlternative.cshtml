@@ -9,12 +9,71 @@
     <link rel="stylesheet" href="~/WEB_BilgeAdam.styles.css" asp-append-version="true" />
 </head>
 <body>
-  
+    <div class="row mt-2 ms-2">
+        <div class="col-md-3">
+            <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="height:800px">
+                <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                    <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap" /></svg>
+                    <span class="fs-4">@User?.Identity?.Name</span>
+                </a>
+                <hr>
+                <ul class="nav nav-pills flex-column mb-auto">
+                    <li class="nav-item">
+                        <a asp-controller="Students" asp-action="ShowStudentClassroom" asp-route-userName="@User.Identity.Name" class="nav-link active" aria-current="page">
+                            <svg class="bi me-2" width="16" height="16"><use xlink:href="#home" /></svg>
+                            Sınıf Bilgileri
+                        </a>
+                    </li>
+                    <li>
+                        <a asp-controller="Students" asp-action="StudentExams" asp-route-userName="@User.Identity.Name" class="nav-link text-white">
+                            <svg class="bi me-2" width="16" height="16"><use xlink:href="#speedometer2" /></svg>
+                            Notlar
+                        </a>
+                    </li>
+
+                </ul>
+                <hr>
+                <div class="dropdown">
+                    <a asp-controller="Account" asp-action="Edit" class="nav-link text-white">
+                        <svg class="bi me-2" width="16" height="16"><use xlink:href="#table" /></svg>
+                        Bilgileri Düzenle
+                    </a>
+
+
+                    <a class="nav-link text-white btn float-start" data-bs-toggle="modal" data-bs-target="#exampleModal">
+
+                        <svg class="bi me-2" width="16" height="16"><use xlink:href="#grid" /></svg>
+                        Çıkış Yap
+                    </a>
+
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title  text-dark" id="exampleModalLabel">Çıkış Yapma Uyarısı</h5>
+                                    <button type="button" class="btn-close  text-dark" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body  text-dark">
+                                    Çıkış yapmak istediğinize emin misiniz?
+                                </div>
+                                <div class="modal-footer  text-dark">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                                    <a asp-controller="Account" asp-action="LogOut" type="button" class="btn btn-danger  text-white">Çıkış Yap</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <main role="main" class="pb-3 mt-4  ">
+                <partial name="_NotificationPartial" />
+                @RenderBody()
+            </main>
+        </div>
+    </div>
     <div class="">
-        <main role="main" class="pb-3 mt-4  ">
-            <partial name="_NotificationPartial" />
-            @RenderBody()
-        </main>
     </div>
 
     <footer class="border-top footer text-muted position-absolute bottom-0 d-flex align-items-center w-100" style="height:50px">
