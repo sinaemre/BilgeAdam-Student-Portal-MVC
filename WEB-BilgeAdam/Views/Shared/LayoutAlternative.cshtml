@@ -18,18 +18,31 @@
                 </a>
                 <hr>
                 <ul class="nav nav-pills flex-column mb-auto">
-                    <li class="nav-item">
-                        <a asp-controller="Students" asp-action="ShowStudentClassroom" asp-route-userName="@User.Identity.Name" class="nav-link active" aria-current="page">
-                            <svg class="bi me-2" width="16" height="16"><use xlink:href="#home" /></svg>
-                            Sınıf Bilgileri
-                        </a>
-                    </li>
-                    <li>
-                        <a asp-controller="Students" asp-action="StudentExams" asp-route-userName="@User.Identity.Name" class="nav-link text-white">
-                            <svg class="bi me-2" width="16" height="16"><use xlink:href="#speedometer2" /></svg>
-                            Notlar
-                        </a>
-                    </li>
+                    @if (User.IsInRole("student"))
+                    {
+                        <li class="nav-item">
+                            <a asp-controller="Students" asp-action="ShowStudentClassroom" asp-route-userName="@User.Identity.Name" class="nav-link active" aria-current="page">
+                                <svg class="bi me-2" width="16" height="16"><use xlink:href="#home" /></svg>
+                                Sınıf Bilgileri
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-controller="Students" asp-action="StudentExams" asp-route-userName="@User.Identity.Name" class="nav-link text-white">
+                                <svg class="bi me-2" width="16" height="16"><use xlink:href="#speedometer2" /></svg>
+                                Notlar
+                            </a>
+                        </li>
+                    }
+
+                    else if (User.IsInRole("teacher"))
+                    {
+                        <li class="nav-item">
+                            <a asp-controller="Teachers" asp-action="ShowClassrooms" asp-route-userName="@User?.Identity?.Name" class="nav-link active" aria-current="page">
+                                <svg class="bi me-2" width="16" height="16"><use xlink:href="#home" /></svg>
+                                Sınıflar
+                            </a>
+                        </li>
+                    }
 
                 </ul>
                 <hr>

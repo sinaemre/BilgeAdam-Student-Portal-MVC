@@ -28,6 +28,11 @@ namespace ApplicationCore_BilgeAdam.Entities.Concrete
 
         public double? Exam1 { get; set; }
         public double? Exam2 { get; set; }
+        public double? ProjectExam { get; set; }
+        public double? Average { get 
+            {
+                return (Exam1 + Exam2 + ProjectExam) / 3;
+            }}
         public string? ProjectPath { get; set; }
 
         [NotMapped]

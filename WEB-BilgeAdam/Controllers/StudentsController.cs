@@ -18,14 +18,16 @@ namespace WEB_BilgeAdam.Controllers
         private readonly IClassroomRepository _classroomRepo;
         private readonly ITeacherRepository _teacherRepo;
         private readonly UserManager<AppUser> _userManager;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public StudentsController(IStudentRepository studentRepo, IMapper mapper, IClassroomRepository classroomRepo, ITeacherRepository teacherRepo, UserManager<AppUser> userManager)
+        public StudentsController(IStudentRepository studentRepo, IMapper mapper, IClassroomRepository classroomRepo, ITeacherRepository teacherRepo, UserManager<AppUser> userManager, IWebHostEnvironment webHostEnvironment)
         {
             _studentRepo = studentRepo;
             _mapper = mapper;
             _classroomRepo = classroomRepo;
             _teacherRepo = teacherRepo;
             _userManager = userManager;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         public async Task<IActionResult> Index()
@@ -160,6 +162,60 @@ namespace WEB_BilgeAdam.Controllers
             }
             TempData["Error"] = "Öğrenci bulunamadı!";
             return RedirectToAction("Index", "Home");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> SetStudentExams(int id)
+        {
+            var student = await _studentRepo.GetById(id);
+            if (student is not null)
+            {
+                var model = new StudentSetExamVM
+                {
+                    Id = student.Id,
+                    FullName = student.FirstName + " " + student.LastName,
+                    ClassroomId = student.ClassroomId
+                };
+                return View(model);
+            }
+            TempData["Error"] = "Öğrenci bulunamadı!";
+            return RedirectToAction("ShowClassrooms", "Teachers", new { userName = User.Identity.Name });
+        }
+
+        [HttpPost, ValidateAntiForgeryToken]
+        public async Task<IActionResult> SetStudentExams(StudentSetExamVM model)
+        {
+            var student = await _studentRepo.GetById(model.Id);
+            if (student is not null) 
+            {
+                if (model.Exam1 != null)
+                {
+                    student.Exam1 = model.Exam1;
+                }
+                if (model.Exam2 != null)
+                {
+                    student.Exam2 = model.Exam2;
+                }
+                if (model.Project != null)
+                {
+                    string uploadDir = Path.Combine(_webHostEnvironment.WebRootPath, "students/projects");
+                    string fileName = $"{Guid.NewGuid()}_{student.FirstName}_{student.LastName}_{model.Project.FileName}";
+                    string filePath = Path.Combine(uploadDir, fileName);
+                    FileStream fileStream = new FileStream(filePath, FileMode.Create);
+                    await model.Project.CopyToAsync(fileStream);
+                    fileStream.Close();
+                    student.ProjectPath = fileName;
+                }
+                if (model.ProjectExam != null)
+                {
+                    student.ProjectExam = model.ProjectExam;
+                }
+                await _studentRepo.UpdateAsync(student);
+                TempData["Success"] = "Sınav notları başarılı bir şekilde girilmiştir!";
+                return RedirectToAction("ShowClassroomForTeacher", "Teachers", new { id = student.ClassroomId });
+            }
+            TempData["Error"] = "Öğrenci bulunamadı!";
+            return RedirectToAction("ShowClassrooms", "Teachers", new { userName = User.Identity.Name });
         }
     }
 }

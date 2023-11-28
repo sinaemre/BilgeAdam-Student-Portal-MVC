@@ -1,6 +1,9 @@
 ﻿@{
     ViewData["Title"] = "Show Classrooms";
 }
+@{
+    Layout = "~/Views/Shared/LayoutAlternative.cshtml";
+}
 @model List<ClassroomsForTeacherVM>
 
 <div class="row">
@@ -36,7 +39,7 @@
 
                 </div>
                 <div class="card-footer text-center">
-                    <a asp-action="ShowClassroomForTeacher" class="btn btn-outline-info d-block">Detay Gör</a>
+                    <a asp-action="ShowClassroomForTeacher" asp-route-id ="@classroom.ClassroomId" class="btn btn-outline-info d-block">Detay Gör</a>
                 </div>
             </div>
         </div>

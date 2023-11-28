@@ -141,16 +141,16 @@ namespace WEB_BilgeAdam.Controllers
         }
 
 
-        public async Task<IActionResult> ShowClassroomForTeacher(string userName)
+        public async Task<IActionResult> ShowClassroomForTeacher(int id)
         {
             //Kullancıyı giriş bilgilerinde yakaladık.
-            var appUser = await _userManager.FindByNameAsync(userName);
+            var appUser = await _userManager.FindByNameAsync(User.Identity.Name);
 
             //Eğitmeni giriş yapan kullanıcının mail'inden yakaladık.
             var teacher = await _teacherRepo.GetByDefault(x => x.Email == appUser.Email);
 
             //Sınıfı ise giriş yapan kullanıcının mail'inden yakaladığımız eğitmenin ID bilgisinden yakaladık.
-            var classroom = await _classroomRepo.GetByDefault(x => x.TeacherId == teacher.Id);
+            var classroom = await _classroomRepo.GetByDefault(x => x.Id == id);
 
             var students = await _studentRepo.GetByDefaults(x => x.ClassroomId == classroom.Id);
 

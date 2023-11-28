@@ -1,6 +1,55 @@
 ﻿@{
     ViewData["Title"] = "Show Classroom For Teacher";
 }
+@{
+    Layout = "~/Views/Shared/LayoutAlternative.cshtml";
+}
 @model ClassroomForTeacherDTO
 
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h3>Öğrenci Listesi - @Model.ClassroomName</h3>
+            </div>
+            <div class="card-body">
+                <div class="table table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Ad</th>
+                                <th>Soyad</th>
+                                <th>Doğum Tarihi</th>
+                                <th>1. Sınav</th>
+                                <th>2. Sınav</th>
+                                <th>Proje Notu</th>
+                                <th>Ortalama</th>
+                                <th>Not Girişi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var student in Model.Students)
+                            {
+                                <tr>
+                                    <td>@student.Id</td>
+                                    <td>@student.FirstName</td>
+                                    <td>@student.LastName</td>
+                                    <td>@student.BirthDate.ToShortDateString()</td>
+                                    <td>@student.Exam1</td>
+                                    <td>@student.Exam2</td>
+                                    <td>@student.ProjectExam</td>
+                                    <td>@student.Average</td>
+                                    <td>
+                                        <a class="btn btn-outline-success btn-sm" asp-controller="Students" asp-action="SetStudentExams" asp-route-id="@student.Id">Not Gir</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 

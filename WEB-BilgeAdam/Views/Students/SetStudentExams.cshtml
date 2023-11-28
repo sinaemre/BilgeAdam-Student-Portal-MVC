@@ -1,0 +1,48 @@
+﻿@{
+    ViewData["Title"] = "Set Student Exams";
+}
+@{
+    Layout = "~/Views/Shared/LayoutAlternative.cshtml";
+}
+@model StudentSetExamVM
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">@Model.FullName</h3>
+            </div>
+            <form asp-action="SetStudentExams" enctype="multipart/form-data">
+                <input type="hidden" asp-for="Id" />
+                <input type="hidden" asp-for="ClassroomId" />
+                <input type="hidden" asp-for="FullName" />
+                <div class="card-body">
+                    <div>
+                        <label asp-for="Exam1" class="form-label"></label>
+                        <input asp-for="Exam1" class="form-control" />
+                        <span asp-validation-for="Exam1" class="text-danger"></span>
+                    </div>
+                    <div>
+                        <label asp-for="Exam2" class="form-label"></label>
+                        <input asp-for="Exam2" class="form-control" />
+                        <span asp-validation-for="Exam2" class="text-danger"></span>
+                    </div>
+                    <div>
+                        <label asp-for="ProjectExam" class="form-label"></label>
+                        <input asp-for="ProjectExam" class="form-control" />
+                        <span asp-validation-for="ProjectExam" class="text-danger"></span>
+                    </div>
+                    <div>
+                        <label asp-for="Project" class="form-label"></label>
+                        <input asp-for="Project" class="form-control" />
+                        <span asp-validation-for="Project" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="card-footer" style="height:50px">
+                    <button type="submit" class="btn btn-outline-success float-end">Kaydet</button>
+                    <a class="btn btn-outline-info float-start" asp-controller="Teachers" asp-action="ShowClassroomForTeacher" asp-route-id="@Model.ClassroomId">Geri Dön</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
