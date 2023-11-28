@@ -42,7 +42,7 @@ namespace Infrastructure_BilgeAdam.TagHelpers
                 }
             }
 
-            output.Content.SetContent(names.Count == 0 ? "Bu rolde kullanıcı yok!" : string.Join(',', names));
+            output.Content.SetContent(names.Count == 0 ? "Bu rolde kullanıcı yok!" : names.Count > 3 ? string.Join(", ", names.Take(3)) + " ..." : string.Join(", ", names));
         }
     }
 }

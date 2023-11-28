@@ -16,8 +16,10 @@
                             <th>Id</th>
                             <th>Ad</th>
                             <th>Soyad</th>
+                            <th>Email</th>
                             <th>Doğum Tarihi</th>
-                            <th>Sınıf No</th>
+                            <th>Sınıf Adı</th>
+                            <th>Ortalama</th>
                             <th>Eklenme Tarihi</th>
                             <th>Güncellenme Tarihi</th>
                             <th>Güncelle</th>
@@ -31,8 +33,19 @@
                                 <td>@student.Id</td>
                                 <td>@student.FirstName</td>
                                 <td>@student.LastName</td>
+                                <td>@student.Email</td>
                                 <td>@student.BirthDate.ToShortDateString()</td>
-                                <td>@student.ClassroomNo</td>
+                                <td>@student.ClassroomName</td>
+                                @if (student.Average is not null)
+                                {
+                                    <td>@student.Average</td>
+                                }
+                                else
+                                {
+                                    <td>
+                                        -
+                                    </td>
+                                }
                                 <td>@student.CreatedDate</td>
                                 @if (student.UpdatedDate is not null)
                                 {

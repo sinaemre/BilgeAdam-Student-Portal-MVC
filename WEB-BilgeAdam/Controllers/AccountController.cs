@@ -90,6 +90,7 @@ namespace WEB_BilgeAdam.Controllers
                                 return RedirectToAction("ShowStudentClassroom", "Students", new { userName = appUser.UserName });
                             }
                         }
+                        
                         else if (await _userManager.IsInRoleAsync(appUser, "Teacher"))
                         {
                             var teacher = await _teacherRepo.GetByDefault(x => x.Email == appUser.Email);
@@ -99,6 +100,19 @@ namespace WEB_BilgeAdam.Controllers
                                 return RedirectToAction("ShowClassrooms", "Teachers", new { userName = appUser.UserName });
                             }
                         }
+                        
+                        else if (await _userManager.IsInRoleAsync(appUser, "ikPersonel"))
+                        {
+                            TempData["Success"] = $"Hoşgeldin => {appUser.UserName}";
+                            return RedirectToAction("Index", "Home");
+                        }
+                        
+                        else if (await _userManager.IsInRoleAsync(appUser, "admin"))
+                        {
+                            TempData["Success"] = $"Hoşgeldin => Admin";
+                            return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
+                        }
+
                         TempData["Success"] = $"Hoşgeldin => {appUser.UserName}";
                         return RedirectToAction("Index", "Home");
                     }
@@ -132,7 +146,7 @@ namespace WEB_BilgeAdam.Controllers
                 {
                     appUser.PasswordHash = _passwordHasher.HashPassword(appUser, model.Password);
                 }
-                
+
                 var result = await _userManager.UpdateAsync(appUser);
                 if (result.Succeeded)
                 {

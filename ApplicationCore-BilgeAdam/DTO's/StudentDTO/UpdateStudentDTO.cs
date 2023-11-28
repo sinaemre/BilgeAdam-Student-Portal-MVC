@@ -17,6 +17,9 @@ namespace ApplicationCore_BilgeAdam.DTO_s.StudentDTO
 
         [Display(Name = "Soyad")]
         public string? LastName { get; set; }
+        
+        [Display(Name = "E-Mail")]
+        public string? Email { get; set; }
 
         [Display(Name = "Doğum Tarihi")]
         public DateTime? BirthDate { get; set; }

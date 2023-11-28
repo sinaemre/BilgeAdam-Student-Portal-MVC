@@ -37,7 +37,8 @@ namespace WEB_BilgeAdam.Controllers
                         FirstName = x.FirstName,
                         LastName = x.LastName,
                         CreatedDate = x.CreatedDate,
-                        UpdatedDate = x.UpdatedDate
+                        UpdatedDate = x.UpdatedDate,
+                        Email = x.Email
                     },
                     where: x => x.Status != ApplicationCore_BilgeAdam.Entities.Abstract.Status.Passive,
                     orderBy: x => x.OrderByDescending(z => z.CreatedDate)

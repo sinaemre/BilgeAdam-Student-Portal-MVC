@@ -26,17 +26,11 @@
                         </thead>
                         <tbody>
                             <tr>
-                            @*  <td>@Model.Exam1</td>
+                                <td>@Model.Exam1</td>
                                 <td>@Model.Exam2</td>
-                                <td><a class="btn btn-success btn-sm">İndir</a></td>
-                                <td>@Model.ProjectPath</td> *@
-                                <td> 76 </td>
-                                <td> 77 </td>
-                                <td> 95 </td>
-                                <td> 88 </td>
-                                <td>
-                                    <a class="btn btn-success btn-sm">İndir</a>
-                                </td>
+                                <td>@Model.ProjectExam</td>
+                                <td>@Model.Average</td>
+                                <td><a class="btn btn-success btn-sm" asp-action="DownloadFile" asp-route-filePath="@Model.ProjectPath">İndir</a></td>
                             </tr>
                         </tbody>
                     </table>

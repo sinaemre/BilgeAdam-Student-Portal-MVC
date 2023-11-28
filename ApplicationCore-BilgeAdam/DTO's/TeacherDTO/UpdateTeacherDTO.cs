@@ -16,7 +16,10 @@ namespace ApplicationCore_BilgeAdam.DTO_s.TeacherDTO
 
         [Display(Name = "Soyad")]
         public string? LastName { get; set; }
-        
+
+        [Display(Name = "E-Mail")]
+        public string? Email { get; set; }
+
         public DateTime CreatedDate { get; set; }
         
         public DateTime? UpdatedDate { get; set; }

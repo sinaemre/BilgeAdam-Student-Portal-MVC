@@ -40,7 +40,9 @@ namespace WEB_BilgeAdam.Controllers
                         FirstName = x.FirstName,
                         LastName = x.LastName,
                         BirthDate = x.BirthDate,
-                        ClassroomNo = x.Classroom.ClassroomNo,
+                        Email = x.Email,
+                        ClassroomName = x.Classroom.ClassroomName,
+                        Average = x.Average,
                         CreatedDate = x.CreatedDate,
                         UpdatedDate = x.UpdatedDate
                     },
@@ -155,7 +157,9 @@ namespace WEB_BilgeAdam.Controllers
                 {
                     Exam1 = student.Exam1,
                     Exam2 = student.Exam2,
-                    ProjectPath = student.ProjectPath
+                    ProjectExam = student.ProjectExam,
+                    ProjectPath = student.ProjectPath,
+                    Average = student.Average
                 };
 
                 return View(model);
@@ -216,6 +220,13 @@ namespace WEB_BilgeAdam.Controllers
             }
             TempData["Error"] = "Öğrenci bulunamadı!";
             return RedirectToAction("ShowClassrooms", "Teachers", new { userName = User.Identity.Name });
+        }
+
+        public ActionResult DownloadFile(string filePath)
+        {
+            string path = Path.Combine(_webHostEnvironment.WebRootPath, "students/projects/");
+            byte[] fileBytes = System.IO.File.ReadAllBytes(path + filePath);
+            return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, filePath);
         }
     }
 }

@@ -1,10 +1,20 @@
 ﻿@{
     ViewData["Title"] = "Edit";
 }
+@{
+    Layout = null;
+    if (User.IsInRole("student") || User.IsInRole("teacher"))
+    {
+        Layout = "~/Views/Shared/LayoutAlternative.cshtml";
+    }
+    else
+    {
+        Layout = "_Layout";
+    }
+}
 @model EditUserDTO
 
 <div class="row">
-    <div class="col-md-2"></div>
     <div class="col-md-8">
         <div class="card">
             <div class="card-header">
@@ -30,7 +40,10 @@
                 </div>
                 <div class="card-footer" style="height:50px;">
                     <button type="submit" class="btn btn-outline-primary float-end">Kaydet</button>
-                    <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary float-start">Anasayfa</a>
+                    @if (!User.IsInRole("student") && !User.IsInRole("teacher"))
+                    {
+                        <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary float-start">Anasayfa</a>
+                    }
                 </div>
             </form>
         </div>
