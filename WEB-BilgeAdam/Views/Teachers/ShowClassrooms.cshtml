@@ -1,0 +1,44 @@
+﻿@{
+    ViewData["Title"] = "Show Classrooms";
+}
+@model List<ClassroomsForTeacherVM>
+
+<div class="row">
+    @foreach (var classroom in Model)
+    {
+        <div class="col-md-4 p-2">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h2 class="card-title">@classroom.ClassroomName</h2>
+                </div>
+                <div class="card-body">
+                    <div>
+                        <label>
+                            Sınıf No:
+                            <span><b>@classroom.ClassroomNo</b></span>
+
+                        </label>
+                    </div>
+                    <div>
+                        <label>
+                            Öğretmen:
+                            <a>
+                                <span><b>@classroom.TeacherName</b></span>
+                            </a>
+                        </label>
+                    </div>
+                    <div>
+                        <label>
+                            Sınıf Mevcudu:
+                            <span><b>@classroom.ClassroomSize</b></span>
+                        </label>
+                    </div>
+
+                </div>
+                <div class="card-footer text-center">
+                    <a asp-action="ShowClassroomForTeacher" class="btn btn-outline-info d-block">Detay Gör</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>

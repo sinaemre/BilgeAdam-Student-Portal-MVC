@@ -1,8 +1,11 @@
 ﻿using ApplicationCore_BilgeAdam.DTO_s.TeacherDTO;
 using ApplicationCore_BilgeAdam.Entities.Concrete;
+using ApplicationCore_BilgeAdam.Entities.UserEntities.Concrete;
 using AutoMapper;
 using Infrastructure_BilgeAdam.Services.Interfaces;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using WEB_BilgeAdam.Models.ViewModels;
 
 namespace WEB_BilgeAdam.Controllers
@@ -12,12 +15,16 @@ namespace WEB_BilgeAdam.Controllers
         private readonly ITeacherRepository _teacherRepo;
         private readonly IMapper _mapper;
         private readonly IClassroomRepository _classroomRepo;
+        private readonly UserManager<AppUser> _userManager;
+        private readonly IStudentRepository _studentRepo;
 
-        public TeachersController(ITeacherRepository teacherRepo, IMapper mapper, IClassroomRepository classroomRepo)
+        public TeachersController(ITeacherRepository teacherRepo, IMapper mapper, IClassroomRepository classroomRepo, UserManager<AppUser> userManager, IStudentRepository studentRepo)
         {
             _teacherRepo = teacherRepo;
             _mapper = mapper;
             _classroomRepo = classroomRepo;
+            _userManager = userManager;
+            _studentRepo = studentRepo;
         }
 
         public async Task<IActionResult> Index()
@@ -106,6 +113,56 @@ namespace WEB_BilgeAdam.Controllers
             }
             TempData["Error"] = "Öğretmen bulunamamıştır!";
             return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> ShowClassrooms(string userName)
+        {
+            //Kullancıyı giriş bilgilerinde yakaladık.
+            var appUser = await _userManager.FindByNameAsync(userName);
+
+            //Eğitmeni giriş yapan kullanıcının mail'inden yakaladık.
+            var teacher = await _teacherRepo.GetByDefault(x => x.Email == appUser.Email);
+
+            //Sınıfı ise giriş yapan kullanıcının mail'inden yakaladığımız eğitmenin ID bilgisinden yakaladık.
+            var classrooms = await _classroomRepo.GetFilteredList(select: x => new ClassroomsForTeacherVM
+            {
+                ClassroomName = x.ClassroomName,
+                ClassroomId = x.Id,
+                ClassroomNo = x.ClassroomNo,
+                ClassroomSize = x.Students.Count,
+                TeacherName = x.Teacher.FirstName + " " + x.Teacher.LastName
+            },
+            where: x => x.Status != ApplicationCore_BilgeAdam.Entities.Abstract.Status.Passive && x.TeacherId == teacher.Id,
+            join: x => x.Include(z => z.Students).Include(z => z.Teacher)
+            );
+
+
+            return View(classrooms);
+        }
+
+
+        public async Task<IActionResult> ShowClassroomForTeacher(string userName)
+        {
+            //Kullancıyı giriş bilgilerinde yakaladık.
+            var appUser = await _userManager.FindByNameAsync(userName);
+
+            //Eğitmeni giriş yapan kullanıcının mail'inden yakaladık.
+            var teacher = await _teacherRepo.GetByDefault(x => x.Email == appUser.Email);
+
+            //Sınıfı ise giriş yapan kullanıcının mail'inden yakaladığımız eğitmenin ID bilgisinden yakaladık.
+            var classroom = await _classroomRepo.GetByDefault(x => x.TeacherId == teacher.Id);
+
+            var students = await _studentRepo.GetByDefaults(x => x.ClassroomId == classroom.Id);
+
+            var model = new ClassroomForTeacherDTO
+            {
+                TeacherName = teacher.FirstName + " " + teacher.LastName,
+                ClassroomName = classroom.ClassroomName,
+                ClassroomNo = classroom.ClassroomNo,
+                Students = students
+            };
+
+            return View(model);
         }
     }
 }

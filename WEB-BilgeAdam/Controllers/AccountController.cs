@@ -1,4 +1,5 @@
 ﻿using ApplicationCore_BilgeAdam.DTO_s.AccountDTO;
+using ApplicationCore_BilgeAdam.Entities.Concrete;
 using ApplicationCore_BilgeAdam.Entities.UserEntities.Concrete;
 using AutoMapper;
 using Infrastructure_BilgeAdam.Services.Interfaces;
@@ -16,13 +17,15 @@ namespace WEB_BilgeAdam.Controllers
         private readonly SignInManager<AppUser> _signInManager;
         private readonly IPasswordHasher<AppUser> _passwordHasher;
         private readonly IStudentRepository _studentRepo;
+        private readonly ITeacherRepository _teacherRepo;
 
-        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IPasswordHasher<AppUser> passwordHasher, IStudentRepository studentRepo)
+        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IPasswordHasher<AppUser> passwordHasher, IStudentRepository studentRepo, ITeacherRepository teacherRepo)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _passwordHasher = passwordHasher;
             _studentRepo = studentRepo;
+            _teacherRepo = teacherRepo;
         }
 
         //AllowAnonymous => Giriş yapmayan kişiler bu sayayı görüntüleyebilir!
@@ -85,6 +88,15 @@ namespace WEB_BilgeAdam.Controllers
                             {
                                 TempData["Success"] = $"Hoşgeldin => {student.FirstName + " " + student.LastName}";
                                 return RedirectToAction("ShowStudentClassroom", "Students", new { userName = appUser.UserName });
+                            }
+                        }
+                        else if (await _userManager.IsInRoleAsync(appUser, "Teacher"))
+                        {
+                            var teacher = await _teacherRepo.GetByDefault(x => x.Email == appUser.Email);
+                            if (teacher is not null)
+                            {
+                                TempData["Success"] = $"Hoşgeldin => {teacher.FirstName + " " + teacher.LastName}";
+                                return RedirectToAction("ShowClassrooms", "Teachers", new { userName = appUser.UserName });
                             }
                         }
                         TempData["Success"] = $"Hoşgeldin => {appUser.UserName}";
