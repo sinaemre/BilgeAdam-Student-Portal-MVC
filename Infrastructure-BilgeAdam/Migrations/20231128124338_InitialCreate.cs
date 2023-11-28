@@ -4,6 +4,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace Infrastructure_BilgeAdam.Migrations
 {
     /// <inheritdoc />
@@ -69,6 +71,7 @@ namespace Infrastructure_BilgeAdam.Migrations
                     BirthDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     Exam1 = table.Column<double>(type: "double precision", nullable: true),
                     Exam2 = table.Column<double>(type: "double precision", nullable: true),
+                    ProjectExam = table.Column<double>(type: "double precision", nullable: true),
                     ProjectPath = table.Column<string>(type: "text", nullable: true),
                     ClassroomId = table.Column<int>(type: "integer", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
@@ -85,6 +88,25 @@ namespace Infrastructure_BilgeAdam.Migrations
                         principalTable: "Classrooms",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Teachers",
+                columns: new[] { "Id", "CreatedDate", "DeletedDate", "Email", "FirstName", "LastName", "Status", "UpdatedDate" },
+                values: new object[] { 1, new DateTime(2023, 11, 28, 15, 43, 38, 12, DateTimeKind.Local).AddTicks(7362), null, "teacher@test.com", "Sina Emre", "Teacher", 1, null });
+
+            migrationBuilder.InsertData(
+                table: "Classrooms",
+                columns: new[] { "Id", "ClassroomDescription", "ClassroomName", "ClassroomNo", "CreatedDate", "DeletedDate", "Status", "TeacherId", "UpdatedDate" },
+                values: new object[] { 1, "320 Saat .NET Full Stack Developer Eğitimi", "YZL-8147", (byte)10, new DateTime(2023, 11, 28, 15, 43, 38, 12, DateTimeKind.Local).AddTicks(8094), null, 1, 1, null });
+
+            migrationBuilder.InsertData(
+                table: "Students",
+                columns: new[] { "Id", "BirthDate", "ClassroomId", "CreatedDate", "DeletedDate", "Email", "Exam1", "Exam2", "FirstName", "LastName", "ProjectExam", "ProjectPath", "Status", "UpdatedDate" },
+                values: new object[,]
+                {
+                    { 1, new DateTime(1996, 1, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, new DateTime(2023, 11, 28, 15, 43, 38, 12, DateTimeKind.Local).AddTicks(8567), null, "student@test.com", null, null, "Sina Emre", "Öğrenci", null, null, 1, null },
+                    { 2, new DateTime(1999, 5, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, new DateTime(2023, 11, 28, 15, 43, 38, 12, DateTimeKind.Local).AddTicks(8590), null, "student2@test.com", null, null, "Test", "Öğrenci", null, null, 1, null }
                 });
 
             migrationBuilder.CreateIndex(

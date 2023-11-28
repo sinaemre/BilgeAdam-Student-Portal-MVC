@@ -1,4 +1,5 @@
 ﻿using ApplicationCore_BilgeAdam.Entities.Concrete;
+using Infrastructure_BilgeAdam.SeedData;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -23,5 +24,14 @@ namespace Infrastructure_BilgeAdam.Context
         public DbSet<Student> Students { get; set; }
         public DbSet<Classroom> Classrooms { get; set; }
         public DbSet<Teacher> Teachers { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.ApplyConfiguration(new TeacherSeedData());
+            modelBuilder.ApplyConfiguration(new ClassroomSeedData());
+            modelBuilder.ApplyConfiguration(new StudentSeedData());
+        }
     }
 }

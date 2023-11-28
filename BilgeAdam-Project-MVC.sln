@@ -3,11 +3,16 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34221.43
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApplicationCore-BilgeAdam", "ApplicationCore-BilgeAdam\ApplicationCore-BilgeAdam.csproj", "{0C1ADAA6-3553-44C2-ACDB-717C3AA7986E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApplicationCore-BilgeAdam", "ApplicationCore-BilgeAdam\ApplicationCore-BilgeAdam.csproj", "{0C1ADAA6-3553-44C2-ACDB-717C3AA7986E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure-BilgeAdam", "Infrastructure-BilgeAdam\Infrastructure-BilgeAdam.csproj", "{79F4A79A-CD61-4C9E-9889-074AA17EC632}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure-BilgeAdam", "Infrastructure-BilgeAdam\Infrastructure-BilgeAdam.csproj", "{79F4A79A-CD61-4C9E-9889-074AA17EC632}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WEB-BilgeAdam", "WEB-BilgeAdam\WEB-BilgeAdam.csproj", "{467921EC-A8C6-4A8E-9C41-7A5BE6907F6A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WEB-BilgeAdam", "WEB-BilgeAdam\WEB-BilgeAdam.csproj", "{467921EC-A8C6-4A8E-9C41-7A5BE6907F6A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{82D41392-FADF-47FA-BEE6-A3760126E339}"
+	ProjectSection(SolutionItems) = preProject
+		README.txt = README.txt
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

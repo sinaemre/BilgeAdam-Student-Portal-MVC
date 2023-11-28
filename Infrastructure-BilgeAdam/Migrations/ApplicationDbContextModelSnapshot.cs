@@ -59,6 +59,18 @@ namespace Infrastructure_BilgeAdam.Migrations
                     b.HasIndex("TeacherId");
 
                     b.ToTable("Classrooms");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ClassroomDescription = "320 Saat .NET Full Stack Developer Eğitimi",
+                            ClassroomName = "YZL-8147",
+                            ClassroomNo = (byte)10,
+                            CreatedDate = new DateTime(2023, 11, 28, 15, 43, 38, 12, DateTimeKind.Local).AddTicks(8094),
+                            Status = 1,
+                            TeacherId = 1
+                        });
                 });
 
             modelBuilder.Entity("ApplicationCore_BilgeAdam.Entities.Concrete.Student", b =>
@@ -117,6 +129,30 @@ namespace Infrastructure_BilgeAdam.Migrations
                     b.HasIndex("ClassroomId");
 
                     b.ToTable("Students");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            BirthDate = new DateTime(1996, 1, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ClassroomId = 1,
+                            CreatedDate = new DateTime(2023, 11, 28, 15, 43, 38, 12, DateTimeKind.Local).AddTicks(8567),
+                            Email = "student@test.com",
+                            FirstName = "Sina Emre",
+                            LastName = "Öğrenci",
+                            Status = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            BirthDate = new DateTime(1999, 5, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ClassroomId = 1,
+                            CreatedDate = new DateTime(2023, 11, 28, 15, 43, 38, 12, DateTimeKind.Local).AddTicks(8590),
+                            Email = "student2@test.com",
+                            FirstName = "Test",
+                            LastName = "Öğrenci",
+                            Status = 1
+                        });
                 });
 
             modelBuilder.Entity("ApplicationCore_BilgeAdam.Entities.Concrete.Teacher", b =>
@@ -153,6 +189,17 @@ namespace Infrastructure_BilgeAdam.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Teachers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedDate = new DateTime(2023, 11, 28, 15, 43, 38, 12, DateTimeKind.Local).AddTicks(7362),
+                            Email = "teacher@test.com",
+                            FirstName = "Sina Emre",
+                            LastName = "Teacher",
+                            Status = 1
+                        });
                 });
 
             modelBuilder.Entity("ApplicationCore_BilgeAdam.Entities.Concrete.Classroom", b =>

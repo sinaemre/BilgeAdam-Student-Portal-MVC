@@ -1,4 +1,5 @@
 ﻿using ApplicationCore_BilgeAdam.Entities.UserEntities.Concrete;
+using Infrastructure_BilgeAdam.SeedData;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -15,6 +16,15 @@ namespace Infrastructure_BilgeAdam.Context.IdentityContext
         {
             //Update-Database komutunu kendi çalıştırır!
             Database.Migrate();
+        }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+            builder.ApplyConfiguration(new UserSeedData());
+            builder.ApplyConfiguration(new RoleSeedData());
+            builder.ApplyConfiguration(new IdentityUserRoleSeedData());
         }
     }
 }
