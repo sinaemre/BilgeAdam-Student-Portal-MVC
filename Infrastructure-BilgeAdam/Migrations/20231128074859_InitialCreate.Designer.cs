@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure_BilgeAdam.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231127112541_TeacherUpdate")]
-    partial class TeacherUpdate
+    [Migration("20231128074859_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
