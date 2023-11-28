@@ -14,6 +14,7 @@ using Infrastructure_BilgeAdam.FluentValidator.ClassroomValidators;
 using Infrastructure_BilgeAdam.FluentValidator.RoleValidators;
 using Infrastructure_BilgeAdam.FluentValidator.StudentValidators;
 using Infrastructure_BilgeAdam.FluentValidator.TeacherValidator;
+using Infrastructure_BilgeAdam.SeedData;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
@@ -98,7 +99,6 @@ namespace WEB_BilgeAdam
 
             app.UseAuthentication();
             app.UseAuthorization();
-
 
 
             app.MapControllerRoute(
