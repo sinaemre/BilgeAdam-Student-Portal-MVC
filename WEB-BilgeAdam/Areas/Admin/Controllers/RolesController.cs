@@ -1,11 +1,14 @@
 ﻿using ApplicationCore_BilgeAdam.DTO_s.RoleDTO;
 using ApplicationCore_BilgeAdam.Entities.UserEntities.Concrete;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WEB_BilgeAdam.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "admin")]
+
     public class RolesController : Controller
     {
         private readonly UserManager<AppUser> _userManager;

@@ -1,7 +1,12 @@
 ﻿@{
     ViewData["Title"] = "Show Student Classroom";
 }
-@{
+@if (User.IsInRole("admin"))
+{
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+else
+{
     Layout = "~/Views/Shared/LayoutAlternative.cshtml";
 }
 @model ClassroomStudentDTO
@@ -26,7 +31,7 @@
                             @Model.ClassroomDescription
                         </div>
                     </div>
-                    
+
                 </div>
                 <hr />
                 <div>

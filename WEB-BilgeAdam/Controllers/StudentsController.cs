@@ -4,6 +4,7 @@ using ApplicationCore_BilgeAdam.Entities.Concrete;
 using ApplicationCore_BilgeAdam.Entities.UserEntities.Concrete;
 using AutoMapper;
 using Infrastructure_BilgeAdam.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,9 @@ using WEB_BilgeAdam.Models.ViewModels;
 
 namespace WEB_BilgeAdam.Controllers
 {
+
+    //[Authorize(Roles = "ikPersonel")]
+    //    [Authorize(Roles = "student")]
     public class StudentsController : Controller
     {
         private readonly IStudentRepository _studentRepo;
@@ -30,6 +34,7 @@ namespace WEB_BilgeAdam.Controllers
             _webHostEnvironment = webHostEnvironment;
         }
 
+        [Authorize(Roles = "admin,ikPersonel")]
         public async Task<IActionResult> Index()
         {
             var students = await _studentRepo.GetFilteredList
@@ -54,6 +59,7 @@ namespace WEB_BilgeAdam.Controllers
             return View(students);
         }
 
+        [Authorize(Roles = "admin,ikPersonel")]
         public async Task<IActionResult> CreateStudent()
         {
             var model = new CreateStudentDTO
@@ -63,7 +69,9 @@ namespace WEB_BilgeAdam.Controllers
             };
             return View(model);
         }
+        
 
+        [Authorize(Roles = "admin,ikPersonel")]
         [HttpPost]
         public async Task<IActionResult> CreateStudent(CreateStudentDTO model)
         {
@@ -79,6 +87,7 @@ namespace WEB_BilgeAdam.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "admin,ikPersonel")]
         public async Task<IActionResult> UpdateStudent(int id)
         {
             if (id > 0)
@@ -96,6 +105,7 @@ namespace WEB_BilgeAdam.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "admin,ikPersonel")]
         public async Task<IActionResult> UpdateStudent(UpdateStudentDTO model)
         {
             model.Classrooms = await _classroomRepo.GetByDefaults(x => x.Status != ApplicationCore_BilgeAdam.Entities.Abstract.Status.Passive);
@@ -110,6 +120,7 @@ namespace WEB_BilgeAdam.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "admin,ikPersonel")]
         public async Task<IActionResult> DeleteStudent(int id)
         {
             if (id > 0)
@@ -126,6 +137,7 @@ namespace WEB_BilgeAdam.Controllers
             return RedirectToAction("Index");
         }
 
+        [Authorize(Roles = "admin,ikPersonel,student")]
         public async Task<IActionResult> ShowStudentClassroom(string userName)
         {
             var appUser = await _userManager.FindByNameAsync(userName);
@@ -146,6 +158,8 @@ namespace WEB_BilgeAdam.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+
+        [Authorize(Roles = "admin,ikPersonel,student,teacher")]
         public async Task<IActionResult> StudentExams(string userName)
         {
             var appUser = await _userManager.FindByNameAsync(userName);
@@ -169,6 +183,7 @@ namespace WEB_BilgeAdam.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "admin,ikPersonel,teacher")]
         public async Task<IActionResult> SetStudentExams(int id)
         {
             var student = await _studentRepo.GetById(id);
@@ -187,6 +202,7 @@ namespace WEB_BilgeAdam.Controllers
         }
 
         [HttpPost, ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin,ikPersonel,teacher")]
         public async Task<IActionResult> SetStudentExams(StudentSetExamVM model)
         {
             var student = await _studentRepo.GetById(model.Id);
@@ -222,6 +238,7 @@ namespace WEB_BilgeAdam.Controllers
             return RedirectToAction("ShowClassrooms", "Teachers", new { userName = User.Identity.Name });
         }
 
+        [Authorize(Roles = "admin,ikPersonel,teacher,student")]
         public ActionResult DownloadFile(string filePath)
         {
             string path = Path.Combine(_webHostEnvironment.WebRootPath, "students/projects/");

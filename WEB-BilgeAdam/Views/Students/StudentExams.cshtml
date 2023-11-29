@@ -1,7 +1,12 @@
 ﻿@{
     ViewData["Title"] = "Student Exams";
 }
-@{
+@if (User.IsInRole("admin"))
+{
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+else
+{
     Layout = "~/Views/Shared/LayoutAlternative.cshtml";
 }
 @model StudentExamVM
@@ -30,13 +35,22 @@
                                 <td>@Model.Exam2</td>
                                 <td>@Model.ProjectExam</td>
                                 <td>@Model.Average</td>
-                                <td><a class="btn btn-success btn-sm" asp-action="DownloadFile" asp-route-filePath="@Model.ProjectPath">İndir</a></td>
+                                @if (Model.ProjectPath is not null)
+                                {
+                                    <td>
+                                        <a class="btn btn-success btn-sm" asp-action="DownloadFile" asp-route-filePath="@Model.ProjectPath">İndir</a>
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td> - </td>
+                                }
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
-           
+
         </div>
     </div>
 </div>

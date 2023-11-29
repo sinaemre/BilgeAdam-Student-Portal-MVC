@@ -3,6 +3,7 @@ using ApplicationCore_BilgeAdam.Entities.Concrete;
 using ApplicationCore_BilgeAdam.Entities.UserEntities.Concrete;
 using AutoMapper;
 using Infrastructure_BilgeAdam.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -27,6 +28,8 @@ namespace WEB_BilgeAdam.Controllers
             _studentRepo = studentRepo;
         }
 
+
+        [Authorize(Roles = "admin,ikPersonel")]
         public async Task<IActionResult> Index()
         {
             var teachers = await _teacherRepo.GetFilteredList
@@ -47,8 +50,10 @@ namespace WEB_BilgeAdam.Controllers
             return View(teachers);
         }
 
+        [Authorize(Roles = "admin,ikPersonel")]
         public IActionResult CreateTeacher() => View();
-
+        
+        [Authorize(Roles = "admin,ikPersonel")]
         [HttpPost]
         public async Task<IActionResult> CreateTeacher(CreateTeacherDTO model)
         {
@@ -62,7 +67,7 @@ namespace WEB_BilgeAdam.Controllers
             TempData["Warning"] = "Lütfen aşağıdaki kurallara uyunuz!";
             return View(model);
         }
-
+        [Authorize(Roles = "admin,ikPersonel")]
         public async Task<IActionResult> UpdateTeacher(int id)
         {
             if (id > 0)
@@ -78,6 +83,8 @@ namespace WEB_BilgeAdam.Controllers
             return RedirectToAction("Index");
         }
 
+       
+        [Authorize(Roles = "admin,ikPersonel")]
         [HttpPost]
         public async Task<IActionResult> UpdateTeacher(UpdateTeacherDTO model)
         {
@@ -92,6 +99,7 @@ namespace WEB_BilgeAdam.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "admin,ikPersonel")]
         public async Task<IActionResult> DeleteTeacher(int id)
         {
             if (id > 0)
@@ -116,6 +124,8 @@ namespace WEB_BilgeAdam.Controllers
             return RedirectToAction("Index");
         }
 
+
+        [Authorize(Roles = "admin,ikPersonel,teacher")]
         public async Task<IActionResult> ShowClassrooms(string userName)
         {
             //Kullancıyı giriş bilgilerinde yakaladık.
@@ -141,6 +151,7 @@ namespace WEB_BilgeAdam.Controllers
             return View(classrooms);
         }
 
+        [Authorize(Roles = "admin,ikPersonel,teacher")]
 
         public async Task<IActionResult> ShowClassroomForTeacher(int id)
         {
