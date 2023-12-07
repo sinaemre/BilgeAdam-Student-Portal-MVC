@@ -1,4 +1,7 @@
-You have to do nothing. You just login the system.
+Bilge Adam E-School Project
+
+
+Login Informations => 
 
 Student Login =>				UserName = student
 								Password = 123
